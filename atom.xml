@@ -3,11 +3,11 @@
   <title>FunnySaltyFish&#39;s Blog</title>
   
   <subtitle>FunnySaltyFish的小站</subtitle>
-  <link href="https://funnysaltyfish.github.io/atom.xml" rel="self"/>
+  <link href="https://funnysaltyfish.vercel.app/atom.xml" rel="self"/>
   
-  <link href="https://funnysaltyfish.github.io/"/>
+  <link href="https://funnysaltyfish.vercel.app/"/>
   <updated>2021-05-27T14:10:32.831Z</updated>
-  <id>https://funnysaltyfish.github.io/</id>
+  <id>https://funnysaltyfish.vercel.app/</id>
   
   <author>
     <name>FunnySaltyFish</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Flutter卡在Running ‘gradle assembleDebug‘最完整解决</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/27/flutter-gradle-assembleDebug-fix/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/27/flutter-gradle-assembleDebug-fix/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/27/flutter-gradle-assembleDebug-fix/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/27/flutter-gradle-assembleDebug-fix/</id>
     <published>2021-05-27T14:03:41.000Z</published>
     <updated>2021-05-27T14:10:32.831Z</updated>
     
@@ -33,19 +33,19 @@
     
     
     
-    <category term="Bug Fix" scheme="https://funnysaltyfish.github.io/categories/Bug-Fix/"/>
+    <category term="Bug Fix" scheme="https://funnysaltyfish.vercel.app/categories/Bug-Fix/"/>
     
     
-    <category term="Flutter" scheme="https://funnysaltyfish.github.io/tags/Flutter/"/>
+    <category term="Flutter" scheme="https://funnysaltyfish.vercel.app/tags/Flutter/"/>
     
-    <category term="bug修复" scheme="https://funnysaltyfish.github.io/tags/bug%E4%BF%AE%E5%A4%8D/"/>
+    <category term="bug修复" scheme="https://funnysaltyfish.vercel.app/tags/bug%E4%BF%AE%E5%A4%8D/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！目录</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_catalog/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_catalog/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_catalog/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_catalog/</id>
     <published>2021-05-27T13:18:44.551Z</published>
     <updated>2021-05-27T13:48:50.150Z</updated>
     
@@ -64,19 +64,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（1）爬取网络图片</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_1/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_1/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_1/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_1/</id>
     <published>2021-05-27T13:18:44.548Z</published>
     <updated>2021-05-25T15:44:25.614Z</updated>
     
@@ -94,19 +94,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（7）代理的使用</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-7/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-7/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/</id>
     <published>2021-05-26T08:53:57.000Z</published>
     <updated>2021-05-26T08:56:32.382Z</updated>
     
@@ -125,19 +125,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（6）爱词霸翻译（内容详尽，从打开网页手把手完成JS逆向并写出代码）</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-6/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-6/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-6/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-6/</id>
     <published>2021-05-26T08:51:21.000Z</published>
     <updated>2021-05-26T08:53:30.018Z</updated>
     
@@ -156,19 +156,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（5）requests库的使用+错误处理</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-5/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-5/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-5/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-5/</id>
     <published>2021-05-26T08:49:12.000Z</published>
     <updated>2021-05-26T08:59:58.474Z</updated>
     
@@ -187,19 +187,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （4）多线程爬取</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-4/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-4/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-4/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-4/</id>
     <published>2021-05-26T08:46:37.000Z</published>
     <updated>2021-05-26T08:48:35.098Z</updated>
     
@@ -218,19 +218,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （3）爬取豆瓣书籍列表（bs4/lxml简单使用）</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-3/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-3/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-3/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-3/</id>
     <published>2021-05-26T08:44:42.000Z</published>
     <updated>2021-05-26T09:03:39.768Z</updated>
     
@@ -249,19 +249,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （2.5）爬取有度小说全本+GUI操作界面 完整代码</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2-5/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2-5/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2-5/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2-5/</id>
     <published>2021-05-26T08:41:05.000Z</published>
     <updated>2021-05-26T08:45:06.352Z</updated>
     
@@ -279,19 +279,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （2）爬取网络小说并保存全本</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2/</id>
     <published>2021-05-26T08:01:38.000Z</published>
     <updated>2021-05-26T08:40:11.700Z</updated>
     
@@ -309,19 +309,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>关于我</title>
-    <link href="https://funnysaltyfish.github.io/2021/05/23/about-me/"/>
-    <id>https://funnysaltyfish.github.io/2021/05/23/about-me/</id>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/23/about-me/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/23/about-me/</id>
     <published>2021-05-23T00:00:00.000Z</published>
     <updated>2021-05-27T14:23:48.665Z</updated>
     

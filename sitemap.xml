@@ -2,91 +2,91 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/23/about-me/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/23/about-me/</loc>
     
     <lastmod>2021-05-27</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/27/flutter-gradle-assembleDebug-fix/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/27/flutter-gradle-assembleDebug-fix/</loc>
     
     <lastmod>2021-05-27</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_catalog/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_catalog/</loc>
     
     <lastmod>2021-05-27</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-3/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-3/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-5/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-5/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-7/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-6/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-6/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-4/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-4/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2-5/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2-5/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/26/python-spider-lesson-2/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2/</loc>
     
     <lastmod>2021-05-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/2021/05/27/python_spider_lesson_1/</loc>
+    <loc>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_1/</loc>
     
     <lastmod>2021-05-25</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/tags/index.html</loc>
+    <loc>https://funnysaltyfish.vercel.app/tags/index.html</loc>
     
     <lastmod>2021-05-25</lastmod>
     
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/categories/index.html</loc>
+    <loc>https://funnysaltyfish.vercel.app/categories/index.html</loc>
     
     <lastmod>2021-05-25</lastmod>
     
@@ -94,7 +94,7 @@
   
 
   <url>
-    <loc>https://funnysaltyfish.github.io/</loc>
+    <loc>https://funnysaltyfish.vercel.app/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -102,28 +102,28 @@
 
   
   <url>
-    <loc>https://funnysaltyfish.github.io/tags/Flutter/</loc>
+    <loc>https://funnysaltyfish.vercel.app/tags/Flutter/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/tags/bug%E4%BF%AE%E5%A4%8D/</loc>
+    <loc>https://funnysaltyfish.vercel.app/tags/bug%E4%BF%AE%E5%A4%8D/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/tags/%E7%88%AC%E8%99%AB/</loc>
+    <loc>https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/tags/Python/</loc>
+    <loc>https://funnysaltyfish.vercel.app/tags/Python/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -132,14 +132,14 @@
 
   
   <url>
-    <loc>https://funnysaltyfish.github.io/categories/Bug-Fix/</loc>
+    <loc>https://funnysaltyfish.vercel.app/categories/Bug-Fix/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.github.io/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2021-05-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
