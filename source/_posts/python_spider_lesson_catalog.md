@@ -21,3 +21,4 @@ cover: /images/bg_network.jpg
 
 其他
 * 我的[github](https://github.com/FunnySaltyFish)
+* 我的[gitee](https://gitee.com/FunnySaltyFish)

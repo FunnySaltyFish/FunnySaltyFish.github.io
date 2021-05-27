@@ -81,5 +81,5 @@ theme: butterfly
 deploy:
   type: git
   repo: 
-   github: git@github.com:FunnySaltyFish/FunnySaltyFish.github.io.git
-  branch: master
+   github: git@github.com:FunnySaltyFish/blog
+  branch: main
