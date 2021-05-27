@@ -2,6 +2,7 @@
 title: 关于我
 subtitle: 自我介绍
 cover: /images/bg_me.jpg
+date: 2021-05-23 08:00:00
 ---
 
 ## 简介

@@ -82,4 +82,4 @@ deploy:
   type: git
   repo: 
    github: git@github.com:FunnySaltyFish/blog
-  branch: main
+  branch: master
