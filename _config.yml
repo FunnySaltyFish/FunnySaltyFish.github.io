@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://funnysaltyfish.github.io/
+url: https://funnysaltyfish.vercel.app/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -81,5 +81,5 @@ theme: butterfly
 deploy:
   type: git
   repo: 
-   github: git@github.com:FunnySaltyFish/blog
+   github: git@github.com:FunnySaltyFish/FunnySaltyFish.github.io
   branch: master
