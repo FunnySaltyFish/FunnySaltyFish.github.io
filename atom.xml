@@ -43,67 +43,6 @@
   </entry>
   
   <entry>
-    <title>学了python不知干啥？爬爬虫！目录</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_catalog/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_catalog/</id>
-    <published>2021-05-27T13:18:44.551Z</published>
-    <updated>2021-05-27T13:48:50.150Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>合理爬取，不恶意扩大站点压力<br>本文章仅作示例，请勿用作非法用途</p></blockquote><p>该系列的其他篇目：</p><ol><li><a href="https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_1/">（1）保存网络图片</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_2/">（2）爬取网络小说全本并保存</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_2_5/">（2.5）另一个网络小说例子+GUI操作界面 </a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_3/">（3）爬取豆瓣书籍列表（bs4/lxml简单使用）</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_4/">（4）多线程爬取</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_5/">（5）requests+错误处理</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_6/">（6）爱词霸翻译【js逆向，全过程详解】</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_7/">（7）代理的概念和使用</a></li></ol><p>其他</p><ul><li>我的<a href="https://github.com/FunnySaltyFish">github</a></li><li>我的<a href="https://gitee.com/FunnySaltyFish">gitee</a></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;合理爬取，不恶意扩大站点压力&lt;br&gt;本文章仅作示例，请勿用作非法用途&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;该系列的其他篇目：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://funnysaltyfish.github.io/202</summary>
-      
-    
-    
-    
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
-    
-    
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>学了python不知干啥？爬爬虫！（1）爬取网络图片</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_1/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/27/python_spider_lesson_1/</id>
-    <published>2021-05-27T13:18:44.548Z</published>
-    <updated>2021-05-25T15:44:25.614Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>生活就像淋浴：方向转错，水深火热 ——意林</p></blockquote><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><hr><p>各位玩python的，相比对“爬虫”这个字眼并不陌生。啥？你不知道？对啦，就是需要一个不知道的……</p><p>那么，咱们的第一件事就是……  </p><hr><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a><del>概念</del></h2><p>上来一手概念，恐怕这是<strong>最劝退</strong>的了<br>咱们还是先来看看它能干啥吧</p><hr><h2 id="这只虫，能干嘛？"><a href="#这只虫，能干嘛？" class="headerlink" title="这只虫，能干嘛？"></a>这只虫，能干嘛？</h2><ul><li><p>不打开网页，下载图片啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228232539627.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p></li><li><p>不打开网页，看看小说啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/2019122823221987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="看小说"></p></li><li><p>或者保存点贴吧贴子啦，图片啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228232308841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="百度贴吧"></p></li><li><p>等等……</p><p>什么，你说：那我要这玩意儿干嘛？我打开网页不是更快吗？<br>同志，男人不能一味追求快……不对，是有些事情你打开网页也不好干……<br>例如：</p></li><li><p>获取某乎所有用户年龄组成、性别比例（诶？怎么有点像生物）</p></li><li><p>获取某地区程序员平均工资</p></li><li><p>…<br>但是，这些，<strong>爬虫都可以干！</strong><br>那么，让我们愉快的开始吧！</p></li></ul><hr><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>author：FunnySaltyFish<br>python：3.6<br>win7 x86</p><hr><h2 id="搞张图片"><a href="#搞张图片" class="headerlink" title="搞张图片"></a>搞张图片</h2><p>首先，让我们打开百度图片，这样搜索:<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228233355354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="搜索"><br>然后在你看到的这张可爱的图片上，单击右键——复制图片地址<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228233456609.png#pic_center" alt="在这里插入图片描述"><br><em>（此处使用的是360毒瘤浏览器，是的没错，360。不推荐你使用这玩意儿。其他浏览器应该也有此功能，找到类似的就好）</em><br><em>（如果你是手机编程党，比如我，推荐使用via。这款0.5M的浏览器却十分强大，包括了后面的教程中我们要使用到的网页源码查看和网页调试【安装插件的情况下】）</em><br>接下来，我们肝代码！</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>直接上！</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> ur</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_pic</span>():</span></span><br><span class="line">    <span class="comment">#打开网页</span></span><br><span class="line">    url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line">    <span class="comment">#读取</span></span><br><span class="line">    html=ur.urlopen(url).read()</span><br><span class="line">    <span class="comment">#print(html)</span></span><br><span class="line">    <span class="comment">#以二进制保存</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;D:\projects\something_download\pic.jpg&quot;</span>,<span class="string">&#x27;wb+&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(html)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    save_pic()</span><br></pre></td></tr></table></figure><p>短？没错，就是这么短！<br>我们来看看这个代码干了些什么</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> ur</span><br></pre></td></tr></table></figure><p>1.很明显，这玩意就是一个导库</p><blockquote><p>urllib是Python自带的标准库，无需安装，直接可以使用。<br>提供了如下功能：<br>-网页请求<br>-响应获取<br>-代理和cookie设置<br>-异常处理<br>-URL解析</p></blockquote><p>简而言之，这是python官方提供的简单易上手但功能强大的库<br>至于它的功能，嘿嘿，我们就先不多扯了，后面再慢慢看。先往下看</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打开网页</span></span><br><span class="line">url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line"><span class="comment">#读取</span></span><br><span class="line">html=ur.urlopen(url).read()</span><br></pre></td></tr></table></figure><p>此处的url就是刚刚复制的图片地址，而后面的urlopen就是打开这个url啦<br>它的用法如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">urlopen(url, data, timeout)   </span><br><span class="line"><span class="comment">#第一个参数url即为需要打开的URL，为必选项。</span></span><br><span class="line"><span class="comment">#第二个参数data默认状态为空，先不管它</span></span><br><span class="line"><span class="comment">#第三个timeout是设置超时时间，默认为socket._GLOBAL_DEFAULT_TIMEOUT。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#执行 urlopen 方法之后，返回一个response对象。返回信息便保存在这里面。</span></span><br></pre></td></tr></table></figure><p>通过read()可以读取到里面的内容 <em>（读者也可以试试不加read直接打印会输出什么）</em><br>由于我们获得的链接是图片直链，此处返会的便直接是图片的原始编码。接下来，只需保存就好啦！</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以二进制保存</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;D:\projects\something_download\pic.jpg&quot;</span>,<span class="string">&#x27;wb+&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(html)</span><br></pre></td></tr></table></figure><p>执行后，相应文件夹即会出现对应图片  </p><hr><h4 id="有点麻烦，换个方法？"><a href="#有点麻烦，换个方法？" class="headerlink" title="有点麻烦，换个方法？"></a>有点麻烦，换个方法？</h4><p>其实，如果单单保存一张图片的话，urllib为我们提供好了一个方法<br>我们来试一下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_pic2</span>():</span></span><br><span class="line">    url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line">    ur.urlretrieve(url,<span class="string">&quot;D:\projects\something_download\pic2.jpg&quot;</span>)</span><br></pre></td></tr></table></figure><p>运行结果和刚刚相同</p><blockquote><p>urllib模块提供的urlretrieve()函数。urlretrieve()方法直接将远程数据下载到本地。</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">urlretrieve(url, filename=<span class="literal">None</span>, reporthook=<span class="literal">None</span>, data=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数filename指定了保存本地路径（如果参数未指定，urllib会生成一个临时文件保存数据。）</span></span><br><span class="line"><span class="comment">#参数reporthook是一个回调函数，当连接上服务器、以及相应的数据块传输完毕时会触发该回调，我们可以利用这个回调函数来显示当前的下载进度。</span></span><br><span class="line"><span class="comment">#参数data指post导服务器的数据，该方法返回一个包含两个元素的(filename, headers) 元组，filename 表示保存到本地的路径，header表示服务器的响应头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#懒得打字了，这里来源：https://blog.csdn.net/fengzhizi76506/article/details/59229846</span></span><br><span class="line"><span class="comment">#倾删</span></span><br></pre></td></tr></table></figure><p>好啦，我们的小虫虫就下载完成了！  </p><hr><h2 id="所以，爬虫是啥"><a href="#所以，爬虫是啥" class="headerlink" title="所以，爬虫是啥"></a>所以，爬虫是啥</h2><p>如果让现在的我们概括这个问题，我们应该可以这样想象：</p><ul><li>互联网是一张大网（它也确实很大），爬虫就是上面的一只只蜘蛛，沿着网的触须蔓延开来，在互联网上搜索的我们感兴趣的资源（比如这张图片），然后按照我们的意愿对它进行一定操作（如我们的保存）。爬取、数据处理、保存等操作便完成了一次爬取。</li><li>事实上，搜索引擎就是一个巨大的爬虫，它通过一定的方法遍历搜索范围内的所有节点（如你喜欢看片……片子，你可能就会走遍你附近的所有影院），并将它们按一定的索引（比如你的口味）建成一个巨大的数据库（比如记在小本本上）。然后，当用户需要搜索需求（比如你饥渴了）时，就可以按照这个索引（如你编好的小本本）用特定的方法找到对应的资源。</li><li>（实际上，网络爬虫的概念并不那么简单，感兴趣的可以阅读<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/5162711">这里</a>看一看）*</li></ul><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul><li>你可以试着用这样的方法保存其他图片，然后不出意外，有些地方的图片你一定会遇到问题。我们之后再扯</li><li>爬虫的应用场景很广泛，绝对不止保存图片。下一次，我们将尝试读取网页进行操作，敬请期待</li><li>我的水平不高，所讲之处难免有所漏洞，还望指正</li></ul><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><ul><li><a href="https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/">系列文章完整目录</a></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;生活就像淋浴：方向转错，水深火热 ——意林&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;各位玩python</summary>
-      
-    
-    
-    
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
-    
-    
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>学了python不知干啥？爬爬虫！（7）代理的使用</title>
     <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/"/>
     <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/</id>
@@ -319,20 +258,79 @@
   </entry>
   
   <entry>
+    <title>学了python不知干啥？爬爬虫！（1）爬取网络图片</title>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python_spider_lesson_1/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python_spider_lesson_1/</id>
+    <published>2021-05-26T00:00:00.000Z</published>
+    <updated>2021-06-02T02:31:16.846Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>生活就像淋浴：方向转错，水深火热 ——意林</p></blockquote><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><hr><p>各位玩python的，相比对“爬虫”这个字眼并不陌生。啥？你不知道？对啦，就是需要一个不知道的……</p><p>那么，咱们的第一件事就是……  </p><hr><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a><del>概念</del></h2><p>上来一手概念，恐怕这是<strong>最劝退</strong>的了<br>咱们还是先来看看它能干啥吧</p><hr><h2 id="这只虫，能干嘛？"><a href="#这只虫，能干嘛？" class="headerlink" title="这只虫，能干嘛？"></a>这只虫，能干嘛？</h2><ul><li><p>不打开网页，下载图片啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228232539627.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p></li><li><p>不打开网页，看看小说啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/2019122823221987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="看小说"></p></li><li><p>或者保存点贴吧贴子啦，图片啦<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228232308841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="百度贴吧"></p></li><li><p>等等……</p><p>什么，你说：那我要这玩意儿干嘛？我打开网页不是更快吗？<br>同志，男人不能一味追求快……不对，是有些事情你打开网页也不好干……<br>例如：</p></li><li><p>获取某乎所有用户年龄组成、性别比例（诶？怎么有点像生物）</p></li><li><p>获取某地区程序员平均工资</p></li><li><p>…<br>但是，这些，<strong>爬虫都可以干！</strong><br>那么，让我们愉快的开始吧！</p></li></ul><hr><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>author：FunnySaltyFish<br>python：3.6<br>win7 x86</p><hr><h2 id="搞张图片"><a href="#搞张图片" class="headerlink" title="搞张图片"></a>搞张图片</h2><p>首先，让我们打开百度图片，这样搜索:<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228233355354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70" alt="搜索"><br>然后在你看到的这张可爱的图片上，单击右键——复制图片地址<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20191228233456609.png#pic_center" alt="在这里插入图片描述"><br><em>（此处使用的是360毒瘤浏览器，是的没错，360。不推荐你使用这玩意儿。其他浏览器应该也有此功能，找到类似的就好）</em><br><em>（如果你是手机编程党，比如我，推荐使用via。这款0.5M的浏览器却十分强大，包括了后面的教程中我们要使用到的网页源码查看和网页调试【安装插件的情况下】）</em><br>接下来，我们肝代码！</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>直接上！</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> ur</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_pic</span>():</span></span><br><span class="line">    <span class="comment">#打开网页</span></span><br><span class="line">    url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line">    <span class="comment">#读取</span></span><br><span class="line">    html=ur.urlopen(url).read()</span><br><span class="line">    <span class="comment">#print(html)</span></span><br><span class="line">    <span class="comment">#以二进制保存</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;D:\projects\something_download\pic.jpg&quot;</span>,<span class="string">&#x27;wb+&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(html)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    save_pic()</span><br></pre></td></tr></table></figure><p>短？没错，就是这么短！<br>我们来看看这个代码干了些什么</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> ur</span><br></pre></td></tr></table></figure><p>1.很明显，这玩意就是一个导库</p><blockquote><p>urllib是Python自带的标准库，无需安装，直接可以使用。<br>提供了如下功能：<br>-网页请求<br>-响应获取<br>-代理和cookie设置<br>-异常处理<br>-URL解析</p></blockquote><p>简而言之，这是python官方提供的简单易上手但功能强大的库<br>至于它的功能，嘿嘿，我们就先不多扯了，后面再慢慢看。先往下看</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打开网页</span></span><br><span class="line">url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line"><span class="comment">#读取</span></span><br><span class="line">html=ur.urlopen(url).read()</span><br></pre></td></tr></table></figure><p>此处的url就是刚刚复制的图片地址，而后面的urlopen就是打开这个url啦<br>它的用法如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">urlopen(url, data, timeout)   </span><br><span class="line"><span class="comment">#第一个参数url即为需要打开的URL，为必选项。</span></span><br><span class="line"><span class="comment">#第二个参数data默认状态为空，先不管它</span></span><br><span class="line"><span class="comment">#第三个timeout是设置超时时间，默认为socket._GLOBAL_DEFAULT_TIMEOUT。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#执行 urlopen 方法之后，返回一个response对象。返回信息便保存在这里面。</span></span><br></pre></td></tr></table></figure><p>通过read()可以读取到里面的内容 <em>（读者也可以试试不加read直接打印会输出什么）</em><br>由于我们获得的链接是图片直链，此处返会的便直接是图片的原始编码。接下来，只需保存就好啦！</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以二进制保存</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;D:\projects\something_download\pic.jpg&quot;</span>,<span class="string">&#x27;wb+&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(html)</span><br></pre></td></tr></table></figure><p>执行后，相应文件夹即会出现对应图片  </p><hr><h4 id="有点麻烦，换个方法？"><a href="#有点麻烦，换个方法？" class="headerlink" title="有点麻烦，换个方法？"></a>有点麻烦，换个方法？</h4><p>其实，如果单单保存一张图片的话，urllib为我们提供好了一个方法<br>我们来试一下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_pic2</span>():</span></span><br><span class="line">    url = <span class="string">&#x27;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=95902427,199603518&amp;fm=26&amp;gp=0.jpg&#x27;</span></span><br><span class="line">    ur.urlretrieve(url,<span class="string">&quot;D:\projects\something_download\pic2.jpg&quot;</span>)</span><br></pre></td></tr></table></figure><p>运行结果和刚刚相同</p><blockquote><p>urllib模块提供的urlretrieve()函数。urlretrieve()方法直接将远程数据下载到本地。</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">urlretrieve(url, filename=<span class="literal">None</span>, reporthook=<span class="literal">None</span>, data=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数filename指定了保存本地路径（如果参数未指定，urllib会生成一个临时文件保存数据。）</span></span><br><span class="line"><span class="comment">#参数reporthook是一个回调函数，当连接上服务器、以及相应的数据块传输完毕时会触发该回调，我们可以利用这个回调函数来显示当前的下载进度。</span></span><br><span class="line"><span class="comment">#参数data指post导服务器的数据，该方法返回一个包含两个元素的(filename, headers) 元组，filename 表示保存到本地的路径，header表示服务器的响应头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#懒得打字了，这里来源：https://blog.csdn.net/fengzhizi76506/article/details/59229846</span></span><br><span class="line"><span class="comment">#倾删</span></span><br></pre></td></tr></table></figure><p>好啦，我们的小虫虫就下载完成了！  </p><hr><h2 id="所以，爬虫是啥"><a href="#所以，爬虫是啥" class="headerlink" title="所以，爬虫是啥"></a>所以，爬虫是啥</h2><p>如果让现在的我们概括这个问题，我们应该可以这样想象：</p><ul><li>互联网是一张大网（它也确实很大），爬虫就是上面的一只只蜘蛛，沿着网的触须蔓延开来，在互联网上搜索的我们感兴趣的资源（比如这张图片），然后按照我们的意愿对它进行一定操作（如我们的保存）。爬取、数据处理、保存等操作便完成了一次爬取。</li><li>事实上，搜索引擎就是一个巨大的爬虫，它通过一定的方法遍历搜索范围内的所有节点（如你喜欢看片……片子，你可能就会走遍你附近的所有影院），并将它们按一定的索引（比如你的口味）建成一个巨大的数据库（比如记在小本本上）。然后，当用户需要搜索需求（比如你饥渴了）时，就可以按照这个索引（如你编好的小本本）用特定的方法找到对应的资源。</li><li>（实际上，网络爬虫的概念并不那么简单，感兴趣的可以阅读<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/5162711">这里</a>看一看）*</li></ul><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul><li>你可以试着用这样的方法保存其他图片，然后不出意外，有些地方的图片你一定会遇到问题。我们之后再扯</li><li>爬虫的应用场景很广泛，绝对不止保存图片。下一次，我们将尝试读取网页进行操作，敬请期待</li><li>我的水平不高，所讲之处难免有所漏洞，还望指正</li></ul><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><ul><li><a href="https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/">系列文章完整目录</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;生活就像淋浴：方向转错，水深火热 ——意林&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;各位玩python</summary>
+      
+    
+    
+    
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>学了python不知干啥？爬爬虫！目录</title>
+    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python_spider_lesson_catalog/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/05/26/python_spider_lesson_catalog/</id>
+    <published>2021-05-25T23:00:00.000Z</published>
+    <updated>2021-06-02T02:31:36.175Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>合理爬取，不恶意扩大站点压力<br>本文章仅作示例，请勿用作非法用途</p></blockquote><p>该系列的其他篇目：</p><ol><li><a href="https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_1/">（1）保存网络图片</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_2/">（2）爬取网络小说全本并保存</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_2_5/">（2.5）另一个网络小说例子+GUI操作界面 </a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_3/">（3）爬取豆瓣书籍列表（bs4/lxml简单使用）</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_4/">（4）多线程爬取</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_5/">（5）requests+错误处理</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_6/">（6）爱词霸翻译【js逆向，全过程详解】</a></li><li><a href="https://funnysaltyfish.github.io/2021/05/26/python_spider_lesson_7/">（7）代理的概念和使用</a></li></ol><p>其他</p><ul><li>我的<a href="https://github.com/FunnySaltyFish">github</a></li><li>我的<a href="https://gitee.com/FunnySaltyFish">gitee</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;合理爬取，不恶意扩大站点压力&lt;br&gt;本文章仅作示例，请勿用作非法用途&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;该系列的其他篇目：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://funnysaltyfish.github.io/202</summary>
+      
+    
+    
+    
+    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>关于我</title>
     <link href="https://funnysaltyfish.vercel.app/2021/05/23/about-me/"/>
     <id>https://funnysaltyfish.vercel.app/2021/05/23/about-me/</id>
     <published>2021-05-23T00:00:00.000Z</published>
-    <updated>2021-05-27T14:23:48.665Z</updated>
+    <updated>2021-06-02T02:35:37.387Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>个人开发者，混迹于酷安 <code>@FunnySaltyFish</code></p><hr><h2 id="作品"><a href="#作品" class="headerlink" title="作品:"></a>作品:</h2><h3 id="Android应用"><a href="#Android应用" class="headerlink" title="Android应用"></a>Android应用</h3><ul><li><a href="https://www.coolapk.com/apk/com.funny.translation">FunnyTranslation</a>——一对多翻译软件，零广告、全免费、少权限</li></ul><h3 id="开源库"><a href="#开源库" class="headerlink" title="开源库"></a>开源库</h3><ul><li><a href="https://github.com/FunnySaltyFish/FunnyBottomNavigation">FunnyButtomNavigation</a>——基于Kotlin实现的Android底部导航栏，具有漂亮的过渡动画，易于使用</li><li><a href="https://github.com/FunnySaltyFish/FunnyTimeLine">FunnyTimeLine</a>——自定义View实现的时间轴，带有三阶惯性滑动</li></ul><h3 id="持续开发中……"><a href="#持续开发中……" class="headerlink" title="持续开发中……"></a>持续开发中……</h3>]]></content>
+    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>个人开发者，混迹于<a href="http://www.coolapk.com/u/1951593">酷安</a> <code>@FunnySaltyFish</code></p><hr><h2 id="作品"><a href="#作品" class="headerlink" title="作品:"></a>作品:</h2><h3 id="Android应用"><a href="#Android应用" class="headerlink" title="Android应用"></a>Android应用</h3><ul><li><a href="https://www.coolapk.com/apk/com.funny.translation">FunnyTranslation</a>——一对多翻译软件，零广告、全免费、少权限</li></ul><h3 id="开源库"><a href="#开源库" class="headerlink" title="开源库"></a>开源库</h3><ul><li><a href="https://github.com/FunnySaltyFish/FunnyBottomNavigation">FunnyBottomNavigation</a>——基于Kotlin实现的Android底部导航栏，具有漂亮的过渡动画，易于使用</li><li><a href="https://github.com/FunnySaltyFish/FunnyTimeLine">FunnyTimeLine</a>——自定义View实现的时间轴，带有三阶惯性滑动</li></ul><h3 id="持续开发中……"><a href="#持续开发中……" class="headerlink" title="持续开发中……"></a>持续开发中……</h3>]]></content>
     
     
       
       
-    <summary type="html">&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;个人开发者，混迹于酷安 &lt;code&gt;@FunnySaltyFish&lt;/code&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;作品&quot;&gt;&lt;a href=</summary>
+    <summary type="html">&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;个人开发者，混迹于&lt;a href=&quot;http://www.coolapk.com/u/1951593&quot;&gt;酷安&lt;/a&gt; &lt;code&gt;@Funn</summary>
       
     
     
