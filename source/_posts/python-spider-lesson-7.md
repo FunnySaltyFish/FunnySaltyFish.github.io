@@ -10,10 +10,6 @@ cover: /images/bg_network.jpg
 > 合理爬取，不恶意扩大站点压力
 > 本文章仅作示例，请勿用作非法用途
 
-该系列的其他篇目：
-
-[系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
-
 ---
 
 在Python爬虫过程中，常常会遇见因为各种原因被服务器拒绝访问的情况。有时候设置User-Agent能够解决问题，但如果遇到服务器校验ip访问次数来判断爬虫的情况，这样简单的做法就无能为力了。往往这种时候，采用代理ip间接访问能取得不错的成效。
@@ -201,3 +197,6 @@ if __name__ == "__main__":
 
 ## 参考资料
 * 爬虫所使用的的HTTP代理是什么？https://blog.csdn.net/yingpu618/article/details/107820814
+
+## 后续
+- [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)

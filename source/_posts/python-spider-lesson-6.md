@@ -10,9 +10,7 @@ cover: /images/bg_network.jpg
 > 合理爬取，不恶意扩大站点压力
 > 本文章仅作示例，请勿用作非法用途
 
-该系列的其他篇目：
-
-[系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
+---
 
 ## 前言
 &emsp;&emsp;前几篇教程的爬取，我们一直局限于静态网站，且请求仅限于get。但在实际的开发过程中，动态内容才往往是爬取的核心。在本节内容中，我将带你一步步分析[爱词霸](https://www.iciba.com/)的翻译结果获取过程，并伪装请求实现单词翻译。
@@ -199,3 +197,4 @@ if __name__ == "__main__":
 ```
 
 <center>✿✿ヽ(°▽°)ノ✿  完结撒花  ✿✿ヽ(°▽°)ノ✿</center>
+<center><a href="/2021/05/26/python-spider-lesson-catalog">回到目录</a></center>

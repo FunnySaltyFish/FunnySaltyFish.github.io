@@ -162,4 +162,4 @@ urlretrieve(url, filename=None, reporthook=None, data=None)
  - 我的水平不高，所讲之处难免有所漏洞，还望指正
 
 ## 后续
-- [系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
+- [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)

@@ -10,10 +10,6 @@ cover: /images/bg_network.jpg
 > 合理爬取，不恶意扩大站点压力
 > 本文章仅作示例，请勿用作非法用途
 
-该系列的其他篇目：
-
-[系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
-
 ---
 **本篇并没有完成实际项目，而是讲述更加普遍化的处理方式。如果只是希望复制粘贴的，现在可以选择离开了**
 
@@ -184,3 +180,4 @@ if basic_html != "":
 
 ## 其他
  - 我的水平不高，所讲之处难免有所漏洞，还望指正
+ - [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)

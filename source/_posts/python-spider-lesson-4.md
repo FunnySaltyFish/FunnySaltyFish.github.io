@@ -10,11 +10,7 @@ cover: /images/bg_network.jpg
 > 合理爬取，不恶意扩大站点压力
 > 本文章仅作示例，请勿用作非法用途
 
-该系列的其他篇目：
-
-[系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
-
- ----
+----
  
  ## 效果
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200916184305737.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center)
@@ -217,3 +213,4 @@ if __name__ == "__main__":
 
 ## 其他
  - 我的水平不高，所讲之处难免有所漏洞，还望指正
+ - [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)

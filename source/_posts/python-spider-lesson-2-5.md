@@ -9,9 +9,7 @@ cover: /images/bg_network.jpg
 > 合理爬取，不随意扩大站点压力
 > 本文章仅作示例，请勿用作非法用途
 
-该系列的其他篇目：
-
-[系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
+---
 
 ## 前言
 &emsp;&emsp;最近有朋友向我请求帮助，问我可不可以帮忙爬一下有度小说网的   <small>（*这不是广告！这不是广告！这不是广告！* ）</small>完本小说，刚好有空我就试了一下。于是就有了此篇。
@@ -232,4 +230,4 @@ if __name__ == "__main__":
  - 我的水平不高，所讲之处难免有所漏洞，还望指正
 
 ## 后续
- - [系列文章完整目录](https://funnysaltyfish.github.io/2021/05/24/python_spider_lesson_catalog/)
+- [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)
