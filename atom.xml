@@ -6,7 +6,7 @@
   <link href="https://funnysaltyfish.vercel.app/atom.xml" rel="self"/>
   
   <link href="https://funnysaltyfish.vercel.app/"/>
-  <updated>2021-07-07T06:34:14.087Z</updated>
+  <updated>2021-07-14T11:29:52.771Z</updated>
   <id>https://funnysaltyfish.vercel.app/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jetpack Compose异步加载图片的实现</title>
+    <link href="https://funnysaltyfish.vercel.app/2021/07/14/jetpack-compose-sync-load-image/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/07/14/jetpack-compose-sync-load-image/</id>
+    <published>2021-07-14T11:25:27.000Z</published>
+    <updated>2021-07-14T11:29:52.771Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文使用两种方式，实现Compose中图片的异步加载</p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Android开发中异步加载图片是非常常见的需求。本文将带你实现这一需求。<br>本文将分为如下两个方面：</p><ol><li>自己写函数</li><li>用开源库</li></ol><hr><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="借助Glide库自己写"><a href="#借助Glide库自己写" class="headerlink" title="借助Glide库自己写"></a>借助Glide库自己写</h3><p>Glide开源库基本上成为了Android中加载图片的首选，其简单易用的API和强大的缓存能力让这一过程变得十分方便。<br>自然在Jetpack Compose中也可以使用。</p><h4 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h4><p>在模块中的<code>build.gradle</code>中加入</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;com.github.bumptech.glide:glide:4.12.0&#x27;</span></span><br><span class="line">annotationProcessor <span class="string">&#x27;com.github.bumptech.glide:compiler:4.12.0&#x27;</span></span><br></pre></td></tr></table></figure><h4 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h4><p>如何让Glide把图片加载到Compose组件上去呢？我们可以利用其提供的<code>into(Target)</code>指定自定义的target，再搭配上<code>mutableState&lt;Bitmap&gt;</code>的返回值，即可实现在图片加载完成后Compose自动更新<br>图片加载时一般会有一个默认的<code>loading</code>图，我们可以如法炮制，让Glide先帮我们加载一张本地图片，然后再去加载网络图片即可。<br>编写的函数如下：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用Glide库加载网络图片</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> [FunnySaltyFish](https://funnysaltyfish.github.io)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021-07-14</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context Context 合理的Context</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> url String 加载的图片URL</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> defaultImageId Int 默认加载的本地图片</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> MutableState&lt;Bitmap?&gt; 加载完成（失败为null）的Bitmap-State</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">loadImage</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    context: <span class="type">Context</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    url: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="meta">@DrawableRes</span> defaultImageId: <span class="type">Int</span> = R.drawable.load_holder</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>: MutableState&lt;Bitmap?&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> TAG = <span class="string">&quot;LoadImage&quot;</span></span><br><span class="line">    <span class="keyword">val</span> bitmapState: MutableState&lt;Bitmap?&gt; = mutableStateOf(<span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//为请求加上 Headers ，提高访问成功率</span></span><br><span class="line">    <span class="keyword">val</span> glideUrl = GlideUrl(url,LazyHeaders.Builder().addHeader(<span class="string">&quot;User-Agent&quot;</span>,<span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.67&quot;</span>).build())</span><br><span class="line"></span><br><span class="line">    <span class="comment">//先加载本地图片</span></span><br><span class="line">    Glide.with(context)</span><br><span class="line">        .asBitmap()</span><br><span class="line">        .load(defaultImageId)</span><br><span class="line">        .into(<span class="keyword">object</span> : CustomTarget&lt;Bitmap&gt;() &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResourceReady</span><span class="params">(resource: <span class="type">Bitmap</span>, transition: <span class="type">Transition</span>&lt;<span class="type">in</span> <span class="type">Bitmap</span>&gt;?)</span></span> &#123;</span><br><span class="line">                <span class="comment">//自定义Target，在加载完成后将图片资源传递给bitmapState</span></span><br><span class="line">                bitmapState.value = resource</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onLoadCleared</span><span class="params">(placeholder: <span class="type">Drawable</span>?)</span></span> &#123;&#125;</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//然后再加载网络图片</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Glide.with(context)</span><br><span class="line">            .asBitmap()</span><br><span class="line">            .load(glideUrl)</span><br><span class="line">            .into(<span class="keyword">object</span> : CustomTarget&lt;Bitmap&gt;() &#123;</span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResourceReady</span><span class="params">(resource: <span class="type">Bitmap</span>, transition: <span class="type">Transition</span>&lt;<span class="type">in</span> <span class="type">Bitmap</span>&gt;?)</span></span> &#123;</span><br><span class="line">                    <span class="comment">//自定义Target，在加载完成后将图片资源传递给bitmapState</span></span><br><span class="line">                    bitmapState.value = resource</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onLoadCleared</span><span class="params">(placeholder: <span class="type">Drawable</span>?)</span></span> &#123;&#125;</span><br><span class="line">            &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (glideException: GlideException) &#123;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;loadImage: <span class="subst">$&#123;glideException.rootCauses&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bitmapState</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="使用例子"><a href="#使用例子" class="headerlink" title="使用例子"></a>使用例子</h4><p>简单的例子如下：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">LoadPicture</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    url : <span class="type">String</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> imageState = loadImage(</span><br><span class="line">        context = LocalContext.current,</span><br><span class="line">        url = url,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    Card(modifier = Modifier</span><br><span class="line">        .padding(<span class="number">4.</span>dp)</span><br><span class="line">        .clickable &#123; &#125;) &#123;</span><br><span class="line">        <span class="comment">//如果图片加载成功</span></span><br><span class="line">        imageState.value?.let &#123;</span><br><span class="line">            Image(</span><br><span class="line">                bitmap = it.asImageBitmap(),</span><br><span class="line">                contentDescription = <span class="string">&quot;&quot;</span>,</span><br><span class="line">                modifier = Modifier</span><br><span class="line">                    .padding(<span class="number">4.</span>dp)</span><br><span class="line">                    .fillMaxWidth()</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"></span><br><span class="line">LazyColumn &#123;</span><br><span class="line">    <span class="keyword">val</span> urls = arrayListOf&lt;String&gt;()</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">500.</span><span class="number">.550</span>)&#123;urls.add(<span class="string">&quot;https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/<span class="variable">$i</span>/featured_image.png&quot;</span>)&#125;</span><br><span class="line">    itemsIndexed(urls)&#123; _ , url -&gt; LoadPicture(url = url)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>效果如下图所示：<br><strong>加载中</strong></p><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20210714190357323.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="加载中"><br><strong>加载完毕</strong><br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20210714190734214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="加载成功"><br><code>P.S.：别忘了声明网络权限哦！</code></p><h3 id="借助开源框架"><a href="#借助开源框架" class="headerlink" title="借助开源框架"></a>借助开源框架</h3><p>事实上，谷歌在其<a href="https://developer.android.google.cn/jetpack/compose/libraries">开发文档</a>中也给出了示例，用的是开源库<a href="https://github.com/google/accompanist">Accompanist</a><br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20210714191039630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="谷歌的官方例子"><br>所以我们也可以用这个</p><h4 id="简单的例子"><a href="#简单的例子" class="headerlink" title="简单的例子"></a>简单的例子</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&quot;com.google.accompanist:accompanist-coil:0.13.0&quot;</span></span><br></pre></td></tr></table></figure><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> [FunnySaltyFish](https://funnysaltyfish.github.io)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021-07-14</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> url 加载的链接</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">LoadPicture2</span><span class="params">(url:<span class="type">String</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> painter = rememberCoilPainter(url)</span><br><span class="line"></span><br><span class="line">    Box &#123;</span><br><span class="line">        Image(</span><br><span class="line">            painter = painter,</span><br><span class="line">            contentDescription = <span class="string">&quot;&quot;</span>,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">when</span> (painter.loadState) &#123;</span><br><span class="line">            <span class="keyword">is</span> ImageLoadState.Loading -&gt; &#123;</span><br><span class="line">                <span class="comment">// 显示一个加载中的进度条</span></span><br><span class="line">                CircularProgressIndicator(Modifier.align(Alignment.Center))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">is</span> ImageLoadState.Error -&gt; &#123;</span><br><span class="line">                <span class="comment">// 如果发生了什么错误，你可以在这里写</span></span><br><span class="line">                Text(text = <span class="string">&quot;发生错误&quot;</span>, color = MaterialColors.RedA200)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> -&gt; Text(text = <span class="string">&quot;未知情况&quot;</span>, color = MaterialColors.PurpleA400)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>效果如下：<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20210714191350243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/20210714191350753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="加载中"></p><p><code>P.S.：如果想更好的看到加载的情况，可以在模拟器设置中将网络类型设置为较慢的类型</code></p><h4 id="一些限制"><a href="#一些限制" class="headerlink" title="一些限制"></a>一些限制</h4><p>个人感觉，这种方式有以下的问题：</p><ul><li>滑动加载时不如Glide流畅</li><li>对Kotlin版本有要求，如（截止文章写作时）最新的<code>0.13.0</code>版就必须用<code>kotlin1.5</code>及以上版本，否则就会编译出错</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://www.youtube.com/watch?v=ktOWiLx83bQ&list=PLgCYzUzKIBE_I0_tU5TvkfQpnmrP_9XV8&index=20">视频</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;本文使用两种方式，实现Compose中图片的异步加载&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Android开发中异步加载图片是非常常见的需求。本文将带你实现这一需求</summary>
+      
+    
+    
+    
+    
+    <category term="Jetpack Compose" scheme="https://funnysaltyfish.vercel.app/tags/Jetpack-Compose/"/>
+    
+  </entry>
   
   <entry>
     <title>从C到Python</title>
@@ -36,9 +59,9 @@
     <category term="教程" scheme="https://funnysaltyfish.vercel.app/categories/%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
-    
     <category term="教程" scheme="https://funnysaltyfish.vercel.app/tags/%E6%95%99%E7%A8%8B/"/>
+    
+    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
     
   </entry>
   
@@ -93,9 +116,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -124,9 +147,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -155,9 +178,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -186,9 +209,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -217,9 +240,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -247,9 +270,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -277,9 +300,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -307,9 +330,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -338,9 +361,9 @@
     <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
-    
     <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    
+    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
