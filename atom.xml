@@ -6,7 +6,7 @@
   <link href="https://funnysaltyfish.vercel.app/atom.xml" rel="self"/>
   
   <link href="https://funnysaltyfish.vercel.app/"/>
-  <updated>2021-07-14T11:29:52.771Z</updated>
+  <updated>2021-07-26T10:18:57.942Z</updated>
   <id>https://funnysaltyfish.vercel.app/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jitpack.io ERROR No build artifacts found一路踩坑的解决【Gradle 7.0+,Kotlin 1.5+】</title>
+    <link href="https://funnysaltyfish.vercel.app/2021/07/26/jitpack-build-error-solve/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/07/26/jitpack-build-error-solve/</id>
+    <published>2021-07-26T10:15:04.000Z</published>
+    <updated>2021-07-26T10:18:57.942Z</updated>
+    
+    <content type="html"><![CDATA[<p>前段时间上传我的项目<a href="https://github.com/FunnySaltyFish/CMaterialColors/">CMaterialColors</a>到Jitpack时一直出现错误，最早报出的错误是：</p><blockquote><p>Found artifact: com.funny.cmaterialcolors:release:1.0.0<br>Found artifact: com.funny.cmaterialcolors:release:<br>2021-06-15T08:52:13.4704949Z<br>Exit code: 0<br>ERROR: No build artifacts found</p></blockquote><p>实话说当时非常无语，经过几次失败的尝试后我决定去看看完整的报错日志，然后发现了中间其实就有报错：</p><blockquote><p>An exception occurred applying plugin request [id: ‘com.android.application’]<br>Failed to apply plugin ‘com.android.internal.application’.<br>Android Gradle plugin requires Java 11 to run. You are currently using Java 1.8.<br>     You can try some of the following options:<br>       - changing the IDE settings.<br>       - changing the JAVA_HOME environment variable.<br>       - changing <code>org.gradle.java.home</code> in <code>gradle.properties</code>.</p></blockquote><p>意思是要去修改默认的Java编译环境，查阅Jitpack官方英文<a href="https://github.com/jitpack/jitpack.io/blob/master/BUILDING.md">文档</a>，找到了如下解决措施：</p><blockquote><p>You can create a jitpack.yml file in the root of your repository and override the build commands:</p></blockquote><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdk:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">openjdk9</span></span><br></pre></td></tr></table></figure><p>翻译成中文就是：</p><ul><li>在<strong>项目根目录</strong>创建文件<code>jitpack.yml</code></li><li>在里面添加上述文本即可指定编译用的Java版本</li></ul><p>于是，在解决完了这个问题后，我怀着信心满满的心情再次提交，而这一次……<br>然并卵，错误还是存在……</p><p>老实说这个错误真是非常迷惑的。我又尝试了一些方法，均未果。然后没办法，继续回去看文档呗。<br>我项目里面用的是<code>maven-publish</code>插件，官方文档说执行的命令是</p><blockquote><p>./gradlew build publishToMavenLocal</p></blockquote><p>然后在终端里面试了试，发现居然报错了！<br>然后又是按对应的报错改Bug，直到本地可以正常执行此命令<br>改完之后信心满满的提交，结果新的错误产生了……</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Could not resolve compiler classpath. Check <span class="keyword">if</span> Kotlin Gradle plugin repository is configured <span class="keyword">in</span> project <span class="string">&#x27;:app&#x27;</span>.</span><br><span class="line"></span><br><span class="line">FAILURE: Build failed with an exception.</span><br><span class="line"></span><br><span class="line">* What went wrong:</span><br><span class="line">Could not determine the dependencies of task <span class="string">&#x27;:app:compileReleaseKotlin&#x27;</span>.</span><br><span class="line">&gt; Could not resolve all files <span class="keyword">for</span> configuration <span class="string">&#x27;:app:kotlinCompilerClasspath&#x27;</span>.</span><br><span class="line">   &gt; Cannot resolve external dependency org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10 because no repositories are defined.</span><br><span class="line">     Required by:</span><br><span class="line">         project :app</span><br></pre></td></tr></table></figure><p>我TM！！！<br>网上搜根本搜不到对应的解决措施，没办法一点点改呗。<br>又试了几次，还是不行。<br>这时想到了一个办法，我开始去翻Github，找与我的项目使用的依赖库相似的项目（kotlin 1.5，Gradle 7.0，Compose 1.0.0-rc01），然后对照它的项目文件一个个看。<br>最后找到了差异，我的<code>lib/build.gradle</code>里面少写了这一行：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// kotlin</span><br><span class="line">implementation <span class="string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8:<span class="variable">$kotlin_version</span>&quot;</span></span><br></pre></td></tr></table></figure><p>终于，在版本都累加到<code>1.0.21</code>后，我终终终终终于提交成功了！<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img-blog.csdnimg.cn/9fdcfa0d460e44bea18538ff9999a8cf.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTk2MDY3,size_16,color_FFFFFF,t_70#pic_center" alt="终于"></p><p>那一刻，真的，难以言表！！！</p><p>最后吐个槽，各位博主大大抄袭文章能不能有个限度，nm各个文章都在用着早已被废弃的插件，jdk11的问题都没得人指出。简直了。。。</p><p><strong>如果你需要参考对应文件，可以点击这个开源库：<a href="https://github.com/FunnySaltyFish/CMaterialColors/">CMaterialColors</a></strong></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;前段时间上传我的项目&lt;a href=&quot;https://github.com/FunnySaltyFish/CMaterialColors/&quot;&gt;CMaterialColors&lt;/a&gt;到Jitpack时一直出现错误，最早报出的错误是：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;F</summary>
+      
+    
+    
+    
+    
+    <category term="Jitpack" scheme="https://funnysaltyfish.vercel.app/tags/Jitpack/"/>
+    
+  </entry>
   
   <entry>
     <title>Jetpack Compose异步加载图片的实现</title>
