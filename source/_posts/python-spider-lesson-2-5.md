@@ -24,17 +24,14 @@ cover: /images/bg_network.jpg
     Python 3.7
 """
 import urllib.request as ur
-from bs4 import BeautifulSoup
 import re
-class YouDu:
-    BASE_URL = 'https://www.yoduzw.com/book/4869/'
-    SAVE_PATH = "D:/Text/明朝那些事儿——1.txt"
-    START_URL = ''
+import os
 
+class YouDu:
     def __init__(self,start_url,save_path):
         self.START_URL = start_url
         self.SAVE_PATH = save_path
-        self.BASE_URL = f"https://www.yoduzw.com/book/{self.get_base_url_num()}/"
+        self.BASE_URL = f"https://www.yoduzw.com/"
 
     def get_html(self,url):
         headers = {
@@ -45,20 +42,20 @@ class YouDu:
         return html.decode('utf-8')
 
     def parse_html(self,html):
-        pattern_content = re.compile(r'<div class="tp"><script>theme\(\);</script></div>(.+)</p>\n    </div>\n  </div>\n</div>',re.S)
+        pattern_content = re.compile(r'<a href="javascript:" style="-webkit-tap-highlight-color:rgba\(0,0,0,0\);pointer-events:none;">(.+)</p></a>',re.S)
         content = str(re.findall(pattern_content,html)[0])
         if '<p style="font-weight: 400;color:#721f27;">（本章' in content:
             content = content.replace('<p style="font-weight: 400;color:#721f27;">（本章',"")
         if '未完）' in content:
             content=content.replace('未完）','')
-        content = str(content).replace("<p>","\n  ")
+        content = str(content).replace("<p>","  ")
         content = content.replace("</p>","\n")
         content = content.strip("\n\t ")
         return content
 
 
     def find_next_page(self,html):
-        pattern_next_page = re.compile(r'书签</a><a href="/book/.*/(.*)">下一章</a>')
+        pattern_next_page = re.compile(r'var url_next="(.+?)"')
         next_page = str(re.findall(pattern_next_page,html)[0])
         return next_page
 
@@ -74,10 +71,15 @@ class YouDu:
         base_url_num = str(re.match(pattern_base_url,self.START_URL).group(1))
         return base_url_num
 
+    def createFolders(self, save_path:str):
+        parent = os.path.dirname(save_path)
+        if not os.path.exists(parent):
+            os.makedirs(parent)
 
     def get(self):
-        url = 'https://www.yoduzw.com/book/4869/349727.html'
-        f = open(self.SAVE_PATH, "w+")
+        url = self.START_URL
+        i = 1
+        f = open(self.SAVE_PATH, "w+", encoding="utf-8")
         while True:
             print(url)
             html = self.get_html(url)
@@ -93,10 +95,8 @@ class YouDu:
                 f.close()
                 break
 
-
-
 if __name__ == "__main__":
-    youdu = YouDu("https://www.yoduzw.com/book/4869/349727.html","D:/Text/明朝那些事儿——2.txt")
+    youdu = YouDu("https://www.yoduzw.com/book/4869/349727.html","D:/Text/明朝那些事儿——1.txt")
     youdu.get()
 ```
 
@@ -228,6 +228,7 @@ if __name__ == "__main__":
 
 ## 其他
  - 我的水平不高，所讲之处难免有所漏洞，还望指正
+ - **因网页结构变动等原因，此项目源码可能无法直接运行，如遇此情况请自行酌情修改！！！**
 
 ## 后续
 - [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)

@@ -80,14 +80,14 @@ Open the URL url, which can be either a string or a Request object.
 &emsp;&emsp;有了网页，提取内容就不是什么问题了。通过观察我们可以知道，所有小说内容包裹在\<div id="content"\>后面。于是，利用正则表达式 *【正则表达式是一种根据特定规则提取文本的技术，您可以先学习之后再回到本章节观看】* ，我们可以写出如下代码：
 
 ```python
-    re_content = re.compile(r'''<div id="content">\n(.*)''', re.M)
+    re_content = re.compile(r'''并刷新页面。</div>.\s+(.+?)<script language="javascript" type="text/javascript" src="https://mgzs.cdn.bcebos.com/txt.js">''', re.S)
     content = re.findall(re_content, html)[0]
 ```
 &emsp;&emsp;再处理一下特殊字符，让文本好看一点，我们最终得到了这样一个函数：
 
 ```python
 def get_base_content(html):
-    re_content = re.compile(r'''<div id="content">\n(.*)''', re.M)
+    re_content = re.compile(r'''并刷新页面。</div>.\s+(.+?)<script language="javascript" type="text/javascript" src="https://mgzs.cdn.bcebos.com/txt.js">''', re.S)
     content = re.findall(re_content, html)[0]
     content = content.replace("<br />", "\n")
     content = content.replace("　　&nbsp;\n", "")
@@ -100,7 +100,7 @@ def get_base_content(html):
 
 ```python
 def get_title(html):
-    re_title = re.compile(r'<meta name="keywords" content="(.*),神澜奇域海龙珠,唐家三少,E8中文网" />')
+    re_title = re.compile(r'<h1 class="title">(.+?)</h1>')
     return re.search(re_title, html).group(1)
 ```
 &emsp;&emsp;这样就完成了一章内容的获取。
@@ -125,9 +125,9 @@ graph TB
 &emsp;&emsp;上述完整代码如下：
 
 ```python
-BASE_URL = "https://www.e8zw.com/book/416/416756/"
+BASE_URL = "https://www.e8zw.com/"
 def get_next_page(html):
-    re_next_page = re.compile(r'<a id="pager_next" href="(.*?)"')
+    re_next_page = re.compile(r'<a href="(.+?)">下一[章|页]</a>')
     return BASE_URL + re.search(re_next_page, html).group(1)
 ```
 
@@ -151,7 +151,7 @@ if __name__ == '__main__':
 ```python
 import re
 import urllib.request as ur
-BASE_URL = "https://www.e8zw.com/book/416/416756/"
+BASE_URL = "https://www.e8zw.com/"
 URL = "https://www.e8zw.com/book/416/416756/2235794.html"
 
 
@@ -167,7 +167,7 @@ def get_html(url):
 
 
 def get_base_content(html):
-    re_content = re.compile(r'''<div id="content">\n(.*)''', re.M)
+    re_content = re.compile(r'''并刷新页面。</div>.\s+(.+?)<script language="javascript" type="text/javascript" src="https://mgzs.cdn.bcebos.com/txt.js">''', re.S)
     content = re.findall(re_content, html)[0]
     content = content.replace("<br />", "\n")
     content = content.replace("　　&nbsp;\n", "")
@@ -175,24 +175,29 @@ def get_base_content(html):
 
 
 def get_next_page(html):
-    re_next_page = re.compile(r'<a id="pager_next" href="(.*?)"')
+    re_next_page = re.compile(r'<a href="(.+?)">下一[章|页]</a>')
     return BASE_URL + re.search(re_next_page, html).group(1)
 
 
 def get_title(html):
-    re_title = re.compile(r'<meta name="keywords" content="(.*),神澜奇域海龙珠,唐家三少,E8中文网" />')
+    re_title = re.compile(r'<h1 class="title">(.+?)</h1>')
     return re.search(re_title, html).group(1)
 
 
 if __name__ == '__main__':
     html = ""
     url = URL
+    # 保存的文件路径，请修改为你自己的路径
     f = open("D:/projects/something_download/神澜奇遇——海龙珠.txt", "w+", encoding="utf-8")
     while True:
+        # 获取每一章html源码
         html = get_html(url)
+        # 获取内容
         text = get_base_content(html)
+        # 获取标题
         title = get_title(html)
         print(f"{title}\n{text}")
+        # 获取下一页的链接
         url = get_next_page(html)
         f.write(f"{title}{text}\n\n")
         if url.endswith("./"):
@@ -200,13 +205,12 @@ if __name__ == '__main__':
             break
 
     f.close()
-
 ```
 
 ## 其他
 
  - 你可以试着用这样的方法保存其他小说，然后不出意外，有些地方的小说你一定会遇到问题（譬如访问不了，网页中没有内容等等）。我们之后再扯
- - 我的水平不高，所讲之处难免有所漏洞，还望指正
+ - **因网页结构变动等原因，此项目源码可能无法直接运行，如遇此情况请自行酌情修改！！！**
 
 ## 后续
 - [系列文章完整目录](/2021/05/26/python-spider-lesson-catalog/)
