@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://funnysaltyfish.vercel.app/2021/10/21/win11-wsa-explore/</loc>
+    
+    <lastmod>2021-10-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://funnysaltyfish.vercel.app/2021/10/05/python-3-10-taste/</loc>
     
     <lastmod>2021-10-05</lastmod>
@@ -123,57 +130,71 @@
 
   <url>
     <loc>https://funnysaltyfish.vercel.app/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://funnysaltyfish.vercel.app/tags/%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2021-10-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://funnysaltyfish.vercel.app/tags/Python/</loc>
-    <lastmod>2021-10-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://funnysaltyfish.vercel.app/tags/Flutter/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://funnysaltyfish.vercel.app/tags/bug%E4%BF%AE%E5%A4%8D/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.vercel.app/tags/Jitpack/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <loc>https://funnysaltyfish.vercel.app/tags/%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2021-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://funnysaltyfish.vercel.app/tags/Python/</loc>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://funnysaltyfish.vercel.app/tags/Jetpack-Compose/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://funnysaltyfish.vercel.app/tags/Jitpack/</loc>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://funnysaltyfish.vercel.app/tags/%E6%8E%A2%E7%B4%A2/</loc>
+    <lastmod>2021-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://funnysaltyfish.vercel.app/tags/Android/</loc>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -181,22 +202,22 @@
 
   
   <url>
-    <loc>https://funnysaltyfish.vercel.app/categories/%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <loc>https://funnysaltyfish.vercel.app/categories/Bug-Fix/</loc>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://funnysaltyfish.vercel.app/categories/Bug-Fix/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <loc>https://funnysaltyfish.vercel.app/categories/%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
