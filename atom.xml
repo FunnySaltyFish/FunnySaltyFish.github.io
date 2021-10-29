@@ -6,7 +6,7 @@
   <link href="https://funnysaltyfish.vercel.app/atom.xml" rel="self"/>
   
   <link href="https://funnysaltyfish.vercel.app/"/>
-  <updated>2021-10-27T13:33:59.892Z</updated>
+  <updated>2021-10-29T05:15:45.574Z</updated>
   <id>https://funnysaltyfish.vercel.app/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jetpack Compose 输入法的弹出与隐藏</title>
+    <link href="https://funnysaltyfish.vercel.app/2021/10/29/jetpack-compose-soft-keyboard/"/>
+    <id>https://funnysaltyfish.vercel.app/2021/10/29/jetpack-compose-soft-keyboard/</id>
+    <published>2021-10-29T05:14:43.000Z</published>
+    <updated>2021-10-29T05:15:45.574Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>本文基于Jetpack Compose1.0.4</em></p><p>Jetpack Compose 提供了 <code>SoftwareKeyboardController</code>用于控制软键盘的显示与隐藏，可在Composable中通过<code>LocalSoftwareKeyboardController.current</code>获取</p><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="隐藏"><a href="#隐藏" class="headerlink" title="隐藏"></a>隐藏</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> keyboard = LocalSoftwareKeyboardController.current</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">onClick = &#123;</span><br><span class="line">    keyboard?.hide()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>该操作会试图关闭软键盘，如果因为各种原因软键盘暂时无法关闭，则此操作会被忽略</p><h4 id="打开"><a href="#打开" class="headerlink" title="打开"></a>打开</h4><p>打开软键盘涉及到焦点的获取</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下代码均在 @Composable 函数中</span></span><br><span class="line"><span class="comment">// 焦点请求器</span></span><br><span class="line"><span class="keyword">val</span> focusRequester = remember &#123;</span><br><span class="line">    FocusRequester()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 为需要获取焦点的TextField添加此Modifier</span></span><br><span class="line">BasicTextField(</span><br><span class="line">    modifier = Modifier</span><br><span class="line">        .fillMaxWidth()</span><br><span class="line">        .focusRequester(focusRequester)</span><br><span class="line">)</span><br><span class="line"><span class="comment">// 请求焦点</span></span><br><span class="line">Button(onClick = &#123;</span><br><span class="line">    focusRequester.requestFocus()</span><br><span class="line">    keyboard?.show()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><p>该操作会试图打开软键盘，如果因为各种原因软键盘暂时无法被打开，则此操作会被忽略</p><h3 id="关于此系列"><a href="#关于此系列" class="headerlink" title="关于此系列"></a>关于此系列</h3><p>此系列<strong>并非完整的系列教程，仅针对Jetpack Compose使用中的具体场景给出对应最小化代码</strong>。目前Jetpack Compose中文资料非常少，希望我能在这方面做出自己的贡献。</p><ul><li>如果要参阅完整项目，可以看我开源的</li></ul><p><a href="https://github.com/FunnySaltyFish/FunnyTranslation/">FunnySaltyFish/FunnyTranslation: 基于Jetpack Compose开发的翻译软件，支持多引擎、插件化~ | Jetpack Compose+MVVM+协程+Room (github.com)</a></p><ul><li>获取系列最新更新：<a href="https://funnysaltyfish.github.io/">FunnySaltyFish’s Blog - FunnySaltyFish的小站</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;em&gt;本文基于Jetpack Compose1.0.4&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Jetpack Compose 提供了 &lt;code&gt;SoftwareKeyboardController&lt;/code&gt;用于控制软键盘的显示与隐藏，可在Composable中通过&lt;code&gt;Lo</summary>
+      
+    
+    
+    
+    
+    <category term="Jetpack Compose" scheme="https://funnysaltyfish.vercel.app/tags/Jetpack-Compose/"/>
+    
+  </entry>
   
   <entry>
     <title>我们开启爱发电啦</title>
