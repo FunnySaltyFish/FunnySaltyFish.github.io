@@ -3,11 +3,11 @@
   <title>FunnySaltyFish&#39;s Blog</title>
   
   <subtitle>FunnySaltyFish的小站</subtitle>
-  <link href="https://funnysaltyfish.vercel.app/atom.xml" rel="self"/>
+  <link href="https://blog.funnysaltyfish.fun/atom.xml" rel="self"/>
   
-  <link href="https://funnysaltyfish.vercel.app/"/>
-  <updated>2021-10-29T05:15:45.574Z</updated>
-  <id>https://funnysaltyfish.vercel.app/</id>
+  <link href="https://blog.funnysaltyfish.fun/"/>
+  <updated>2021-11-11T15:19:26.160Z</updated>
+  <id>https://blog.funnysaltyfish.fun/</id>
   
   <author>
     <name>FunnySaltyFish</name>
@@ -17,9 +17,31 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>基于Jetpack Compose打造一款翻译APP</title>
+    <link href="https://blog.funnysaltyfish.fun/2021/11/11/jetpack-compose-funny-trans/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/11/11/jetpack-compose-funny-trans/</id>
+    <published>2021-11-11T15:18:35.000Z</published>
+    <updated>2021-11-11T15:19:26.160Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p><a href="https://www.coolapk.com/apk/com.funny.translation">FunnyTranslation</a> 是基于Jetpack Compose写成的翻译软件。<strong>它首先是个可以用的软件，其次也是个开源项目。</strong></p><p>开源地址：<a href="https://github.com/FunnySaltyFish/FunnyTranslation">FunnySaltyFish/FunnyTranslation: 基于Jetpack Compose开发的翻译软件，支持多引擎、插件化~ | Jetpack Compose+MVVM+协程+Room (github.com)</a></p><h4 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h4><table><thead><tr><th>图片</th><th>图片</th></tr></thead><tbody><tr><td><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202111102032441.jpg" alt="Screenshot_2021-11-07-22-37-33-814_com.funny.tran" style="zoom:33%;" /></td><td><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202111102032313.jpg" alt="Screenshot_2021-11-07-22-39-18-201_com.funny.tran" style="zoom:33%;" /></td></tr><tr><td><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202111102033517.jpg" alt="Screenshot_2021-11-07-22-40-16-339_com.funny.tran" style="zoom:33%;" /></td><td><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202111102033976.jpg" alt="IMG_20211107_223720" style="zoom:33%;" /></td></tr></tbody></table><p>上面截图显示的所有UI都是基于Jetpack Compose搭建的</p><h4 id="挑点啥说一说"><a href="#挑点啥说一说" class="headerlink" title="挑点啥说一说"></a>挑点啥说一说</h4><p>项目开始时觉得没什么，但是真的写起来却发现不少坑。下面简单挑一个例子。</p><h5 id="导航栏内容与底部同步"><a href="#导航栏内容与底部同步" class="headerlink" title="导航栏内容与底部同步"></a>导航栏内容与底部同步</h5><p>软件的导航栏是基于Row自己定义的，摘录部分如下：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ExperimentalAnimationApi</span></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">CustomNavigation</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    screens : <span class="type">Array</span>&lt;<span class="type">TranslateScreen</span>&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">    currentScreen: <span class="type">TranslateScreen</span> = screens[<span class="number">0</span>],</span></span></span><br><span class="line"><span class="params"><span class="function">    onItemClick: (<span class="type">TranslateScreen</span>) -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Row(</span><br><span class="line">        modifier = Modifier</span><br><span class="line">            .background(MaterialTheme.colors.background)</span><br><span class="line">            .padding(start=<span class="number">8.</span>dp,end=<span class="number">8.</span>dp,bottom = <span class="number">4.</span>dp,top = <span class="number">2.</span>dp)</span><br><span class="line">            .fillMaxWidth(),</span><br><span class="line">        verticalAlignment = Alignment.CenterVertically,</span><br><span class="line">        horizontalArrangement = Arrangement.SpaceAround</span><br><span class="line">    ) &#123;</span><br><span class="line">        screens.forEach&#123; screen-&gt;</span><br><span class="line">            CustomNavigationItem(item = screen, isSelected = currentScreen==screen) &#123;</span><br><span class="line">                onItemClick(screen)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>UI实现并不复杂，问题在于用它导航的时候</p><p>首先是点击Icon跳转到对应页面，这一部分<strong>理论上</strong>并不复杂，用<code>navController.navigate(screen.route)</code>就能达到最简单的效果</p><p>然后第一个问题出现了：每次进行navigate的时候，都会重新创建对应的Screen，导致之前页面输入的内容啥的都会被清空；而且每一次点开对应页面就会有一个新的，导致返回的时候需要疯狂点击回退，在不同页面间反复横跳……这肯定不行</p><p>怎么办呢？参考官方文档，说是加上<code>launchSingleTop=true</code>即可，也就是改成下面这样</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">navController.navigate(screen.route)&#123;</span><br><span class="line">    launchSingleTop = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后……然后居然还是不行！我不得其解，终于在过了几天后找到了有效的写法：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">navController.navigate(screen.route)&#123;</span><br><span class="line">    <span class="comment">//当底部导航导航到在非首页的页面时，执行手机的返回键 回到首页</span></span><br><span class="line">    popUpTo(navController.graph.startDestinationId)&#123;</span><br><span class="line">        saveState = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从名字就能看出来 跟activity的启动模式中的SingleTop模式一样 避免在栈顶创建多个实例</span></span><br><span class="line">    launchSingleTop = <span class="literal">true</span></span><br><span class="line">    <span class="comment">//切换状态的时候保存页面状态</span></span><br><span class="line">    restoreState = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这应该是从一篇博客上看到的，具体哪篇现在也找不到了。在此表示感谢！</p><p>上面的问题解决了，新的问题又来了：点击返回键时，导航栏也应该跟着变动，回到主页面。这一部分的需求又该怎么实现呢？</p><p>最终在开源项目里面一顿乱翻，终于找到了一个解决方案：在<code>NavController.OnDestinationChangedListener</code>回调中使用<code>hierarchy</code>进行匹配，让页面内容与底部导航栏始终保持同步。相关代码如下：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> selectedItem = remember &#123; mutableStateOf&lt;TranslateScreen&gt;(TranslateScreen.MainScreen) &#125;</span><br><span class="line"></span><br><span class="line">   DisposableEffect(<span class="keyword">this</span>) &#123;</span><br><span class="line">       <span class="keyword">val</span> listener = NavController.OnDestinationChangedListener &#123; _, destination, _ -&gt;</span><br><span class="line">           <span class="keyword">when</span> &#123;</span><br><span class="line">               destination.hierarchy.any &#123; it.route == TranslateScreen.MainScreen.route &#125; -&gt; &#123;</span><br><span class="line">                   selectedItem.value = TranslateScreen.MainScreen</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">// ...省略类似的几个</span></span><br><span class="line">               destination.hierarchy.any &#123; it.route == TranslateScreen.ThanksScreen.route &#125; -&gt; &#123;</span><br><span class="line">                   selectedItem.value = TranslateScreen.ThanksScreen</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       addOnDestinationChangedListener(listener)</span><br><span class="line"></span><br><span class="line">       onDispose &#123;</span><br><span class="line">           removeOnDestinationChangedListener(listener)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p>顺便用<code>BackHandler</code>实现了退出时二次确认：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">BackHandler(enabled = <span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (navController.previousBackStackEntry == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">val</span> curTime = System.currentTimeMillis()</span><br><span class="line">            <span class="keyword">if</span>(curTime - activityVM.lastBackTime &gt; <span class="number">2000</span>)&#123;</span><br><span class="line">                scope.launch &#123; scaffoldState.snackbarHostState.showSnackbar(FunnyApplication.resources.getString(R.string.snack_quit)) &#125;</span><br><span class="line">                activityVM.lastBackTime = curTime</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                exitAppAction()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            Log.d(TAG, <span class="string">&quot;AppNavigation: back&quot;</span>)</span><br><span class="line">            <span class="comment">//currentScreen = TranslateScreen.MainScreen</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>这部分完整代码在这：<a href="https://github.com/FunnySaltyFish/FunnyTranslation/blob/compose/translate/src/main/java/com/funny/translation/translate/TransActivity.kt">FunnyTranslation/TransActivity.kt at compose · FunnySaltyFish/FunnyTranslation (github.com)</a></p><p>这样类似的地方在应用开发时还有很多，我相信这里的各位能有同感，就不在这搞吐槽大会了。不过既然尝试了一门新技术，就得做好万事碰壁自己探索的准备。这样也才有点Coder的精神嘛~</p><h4 id="然后呢"><a href="#然后呢" class="headerlink" title="然后呢"></a>然后呢</h4><p>应用目前还在完善，但基本功能确实可以用了，希望各位不吝赐教。</p><p>我在写的时候感觉很多小需求很少有中文资料做整理的，于是自己开了个<a href="https://juejin.cn/column/7024350372680433672">专栏</a>，希望能把这些记录下来，供后来者参阅。</p><p>代码现在有些地方写的不太合理，比如加载数据的部分，确实还需要进一步修改。欢迎参与贡献！</p><p>最后再复读一遍地址：<a href="https://github.com/FunnySaltyFish/FunnyTranslation">https://github.com/FunnySaltyFish/FunnyTranslation</a></p><p>如果觉得项目有用的话，欢迎star~</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;https://www.coolapk.com/apk/com.funny.translation&quot;&gt;FunnyTrans</summary>
+      
+    
+    
+    
+    
+    <category term="Jetpack Compose" scheme="https://blog.funnysaltyfish.fun/tags/Jetpack-Compose/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Jetpack Compose 输入法的弹出与隐藏</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/10/29/jetpack-compose-soft-keyboard/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/10/29/jetpack-compose-soft-keyboard/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/10/29/jetpack-compose-soft-keyboard/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/10/29/jetpack-compose-soft-keyboard/</id>
     <published>2021-10-29T05:14:43.000Z</published>
     <updated>2021-10-29T05:15:45.574Z</updated>
     
@@ -35,14 +57,14 @@
     
     
     
-    <category term="Jetpack Compose" scheme="https://funnysaltyfish.vercel.app/tags/Jetpack-Compose/"/>
+    <category term="Jetpack Compose" scheme="https://blog.funnysaltyfish.fun/tags/Jetpack-Compose/"/>
     
   </entry>
   
   <entry>
     <title>我们开启爱发电啦</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/10/27/start-aifadian/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/10/27/start-aifadian/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/10/27/start-aifadian/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/10/27/start-aifadian/</id>
     <published>2021-10-27T13:28:15.000Z</published>
     <updated>2021-10-27T13:33:59.892Z</updated>
     
@@ -57,14 +79,14 @@
     
     
     
-    <category term="其他" scheme="https://funnysaltyfish.vercel.app/tags/%E5%85%B6%E4%BB%96/"/>
+    <category term="其他" scheme="https://blog.funnysaltyfish.fun/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   
   <entry>
     <title>在win11安装WSA并直接调试App</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/10/21/win11-wsa-explore/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/10/21/win11-wsa-explore/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/10/21/win11-wsa-explore/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/10/21/win11-wsa-explore/</id>
     <published>2021-10-21T09:38:48.000Z</published>
     <updated>2021-10-21T09:41:07.892Z</updated>
     
@@ -81,16 +103,16 @@
     
     
     
-    <category term="探索" scheme="https://funnysaltyfish.vercel.app/tags/%E6%8E%A2%E7%B4%A2/"/>
+    <category term="探索" scheme="https://blog.funnysaltyfish.fun/tags/%E6%8E%A2%E7%B4%A2/"/>
     
-    <category term="Android" scheme="https://funnysaltyfish.vercel.app/tags/Android/"/>
+    <category term="Android" scheme="https://blog.funnysaltyfish.fun/tags/Android/"/>
     
   </entry>
   
   <entry>
     <title>Python3.10稳定版特性速览</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/10/05/python-3-10-taste/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/10/05/python-3-10-taste/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/10/05/python-3-10-taste/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/10/05/python-3-10-taste/</id>
     <published>2021-10-05T14:25:59.000Z</published>
     <updated>2021-10-05T14:30:00.029Z</updated>
     
@@ -107,14 +129,14 @@
     
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Jitpack.io ERROR No build artifacts found一路踩坑的解决【Gradle 7.0+,Kotlin 1.5+】</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/07/26/jitpack-build-error-solve/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/07/26/jitpack-build-error-solve/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/07/26/jitpack-build-error-solve/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/07/26/jitpack-build-error-solve/</id>
     <published>2021-07-26T10:15:04.000Z</published>
     <updated>2021-07-26T10:18:57.942Z</updated>
     
@@ -131,14 +153,14 @@
     
     
     
-    <category term="Jitpack" scheme="https://funnysaltyfish.vercel.app/tags/Jitpack/"/>
+    <category term="Jitpack" scheme="https://blog.funnysaltyfish.fun/tags/Jitpack/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack Compose异步加载图片的实现</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/07/14/jetpack-compose-sync-load-image/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/07/14/jetpack-compose-sync-load-image/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/07/14/jetpack-compose-sync-load-image/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/07/14/jetpack-compose-sync-load-image/</id>
     <published>2021-07-14T11:25:27.000Z</published>
     <updated>2021-07-14T11:29:52.771Z</updated>
     
@@ -154,14 +176,14 @@
     
     
     
-    <category term="Jetpack Compose" scheme="https://funnysaltyfish.vercel.app/tags/Jetpack-Compose/"/>
+    <category term="Jetpack Compose" scheme="https://blog.funnysaltyfish.fun/tags/Jetpack-Compose/"/>
     
   </entry>
   
   <entry>
     <title>从C到Python</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/06/01/from-c-to-python/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/06/01/from-c-to-python/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/06/01/from-c-to-python/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/06/01/from-c-to-python/</id>
     <published>2021-06-01T00:00:00.000Z</published>
     <updated>2021-10-21T12:17:33.121Z</updated>
     
@@ -175,19 +197,19 @@
     
     
     
-    <category term="教程" scheme="https://funnysaltyfish.vercel.app/categories/%E6%95%99%E7%A8%8B/"/>
+    <category term="教程" scheme="https://blog.funnysaltyfish.fun/categories/%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="教程" scheme="https://funnysaltyfish.vercel.app/tags/%E6%95%99%E7%A8%8B/"/>
+    <category term="教程" scheme="https://blog.funnysaltyfish.fun/tags/%E6%95%99%E7%A8%8B/"/>
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Flutter卡在Running ‘gradle assembleDebug‘最完整解决</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/27/flutter-gradle-assembleDebug-fix/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/27/flutter-gradle-assembleDebug-fix/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/27/flutter-gradle-assembleDebug-fix/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/27/flutter-gradle-assembleDebug-fix/</id>
     <published>2021-05-27T14:03:41.000Z</published>
     <updated>2021-05-27T14:10:32.831Z</updated>
     
@@ -201,19 +223,19 @@
     
     
     
-    <category term="Bug Fix" scheme="https://funnysaltyfish.vercel.app/categories/Bug-Fix/"/>
+    <category term="Bug Fix" scheme="https://blog.funnysaltyfish.fun/categories/Bug-Fix/"/>
     
     
-    <category term="Flutter" scheme="https://funnysaltyfish.vercel.app/tags/Flutter/"/>
+    <category term="Flutter" scheme="https://blog.funnysaltyfish.fun/tags/Flutter/"/>
     
-    <category term="bug修复" scheme="https://funnysaltyfish.vercel.app/tags/bug%E4%BF%AE%E5%A4%8D/"/>
+    <category term="bug修复" scheme="https://blog.funnysaltyfish.fun/tags/bug%E4%BF%AE%E5%A4%8D/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（7）代理的使用</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-7/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-7/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-7/</id>
     <published>2021-05-26T08:53:57.000Z</published>
     <updated>2021-06-14T03:44:14.333Z</updated>
     
@@ -232,19 +254,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（6）爱词霸翻译（内容详尽，从打开网页手把手完成JS逆向并写出代码）</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-6/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-6/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-6/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-6/</id>
     <published>2021-05-26T08:51:21.000Z</published>
     <updated>2021-06-14T03:43:41.767Z</updated>
     
@@ -263,19 +285,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（5）requests库的使用+错误处理</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-5/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-5/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-5/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-5/</id>
     <published>2021-05-26T08:49:12.000Z</published>
     <updated>2021-06-14T03:41:44.833Z</updated>
     
@@ -294,19 +316,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （4）多线程爬取</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-4/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-4/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-4/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-4/</id>
     <published>2021-05-26T08:46:37.000Z</published>
     <updated>2021-06-14T03:41:03.080Z</updated>
     
@@ -325,19 +347,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （3）爬取豆瓣书籍列表（bs4/lxml简单使用）</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-3/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-3/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-3/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-3/</id>
     <published>2021-05-26T08:44:42.000Z</published>
     <updated>2021-06-14T03:40:12.194Z</updated>
     
@@ -356,19 +378,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （2.5）爬取有度小说全本+GUI操作界面 完整代码</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2-5/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2-5/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-2-5/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-2-5/</id>
     <published>2021-05-26T08:41:05.000Z</published>
     <updated>2021-10-03T15:19:57.771Z</updated>
     
@@ -386,19 +408,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！ （2）爬取网络小说并保存全本</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-2/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-2/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-2/</id>
     <published>2021-05-26T08:01:38.000Z</published>
     <updated>2021-10-03T15:09:33.966Z</updated>
     
@@ -416,19 +438,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！（1）爬取网络图片</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-1/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-1/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-1/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-1/</id>
     <published>2021-05-26T00:00:00.000Z</published>
     <updated>2021-06-14T03:37:10.423Z</updated>
     
@@ -446,19 +468,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>学了python不知干啥？爬爬虫！目录</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-catalog/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/26/python-spider-lesson-catalog/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-catalog/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/26/python-spider-lesson-catalog/</id>
     <published>2021-05-25T23:00:00.000Z</published>
     <updated>2021-06-14T03:35:42.653Z</updated>
     
@@ -477,19 +499,19 @@
     
     
     
-    <category term="Python爬虫教程" scheme="https://funnysaltyfish.vercel.app/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
+    <category term="Python爬虫教程" scheme="https://blog.funnysaltyfish.fun/categories/Python%E7%88%AC%E8%99%AB%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Python" scheme="https://funnysaltyfish.vercel.app/tags/Python/"/>
+    <category term="Python" scheme="https://blog.funnysaltyfish.fun/tags/Python/"/>
     
-    <category term="爬虫" scheme="https://funnysaltyfish.vercel.app/tags/%E7%88%AC%E8%99%AB/"/>
+    <category term="爬虫" scheme="https://blog.funnysaltyfish.fun/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>关于我</title>
-    <link href="https://funnysaltyfish.vercel.app/2021/05/23/about-me/"/>
-    <id>https://funnysaltyfish.vercel.app/2021/05/23/about-me/</id>
+    <link href="https://blog.funnysaltyfish.fun/2021/05/23/about-me/"/>
+    <id>https://blog.funnysaltyfish.fun/2021/05/23/about-me/</id>
     <published>2021-05-23T00:00:00.000Z</published>
     <updated>2021-06-02T02:35:37.387Z</updated>
     
