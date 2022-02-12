@@ -1,4 +1,3 @@
 @echo off
-echo "开始运行"
+echo "start to run bat..."
 hexo clean&&hexo g&&hexo d
-echo "hexo d完成"
