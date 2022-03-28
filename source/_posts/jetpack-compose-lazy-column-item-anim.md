@@ -34,7 +34,7 @@ var list by remember { mutableStateOf(listOf("A", "B", "C", "D", "E")) }
 
 运行效果如下：
 
-![Jetpack Compose-shuffle](https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202112181030545.gif)
+![Jetpack Compose-shuffle](https://web.funnysaltyfish.fun/temp_img/202112181030545.gif)
 
 实现此效果如此简单！
 
@@ -98,7 +98,7 @@ var studentList by remember {
 
 效果如下：
 
-![Jetpack Compose-swipeToDismiss](https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202112181049286.gif)
+![Jetpack Compose-swipeToDismiss](https://web.funnysaltyfish.fun/temp_img/202112181049286.gif)
 
 
 

@@ -35,7 +35,7 @@ Layout阶段主要做三件事情：
 
 如下图的 `SearchResult`微件，它的构成如下：
 
-![image-20220211171231994](https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111712123.png)
+![image-20220211171231994](https://web.funnysaltyfish.fun/temp_img/202202111712123.png)
 
 
 
@@ -45,23 +45,23 @@ Layout阶段主要做三件事情：
 
 1. 请求测量根布局，即`Row`
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111715804.png" alt="image-20220211171509751" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111715804.png" alt="image-20220211171509751" style="zoom:50%;" />
 
 2. `Row`为了知道自己的大小，就得先知道自己的子微件有多大，于是请求`Image`和`Column`测量它们自己
 
    1. 对于`Image`，由于它内部没有其他微件，所以它可以完成自身测量过程并返回相关位置指令
 
-   <img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111717527.png" alt="image-20220211171746467" style="zoom: 50%;" />
+   <img src="https://web.funnysaltyfish.fun/temp_img/202202111717527.png" alt="image-20220211171746467" style="zoom: 50%;" />
 
    2. 接下来是`Column`，因为它内部有两个`Text`，于是请求子微件测量。而对于`Text`，它们也会正确返回自己的大小和位置指令
 
-   <img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111719907.png" alt="image-20220211171934824" style="zoom:50%;" />
+   <img src="https://web.funnysaltyfish.fun/temp_img/202202111719907.png" alt="image-20220211171934824" style="zoom:50%;" />
 
    3. 这时 Column 大小和位置指令即可正确确定
 
 3. 最后，`Row`内部所有测量完成，它可以正确获得自己的大小和位置指令
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111721514.png" alt="image-20220211172155426" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111721514.png" alt="image-20220211172155426" style="zoom:50%;" />
 
 测量阶段到此结束，接下来就是正确的摆放位置了
 
@@ -73,7 +73,7 @@ Layout阶段主要做三件事情：
 
 现在我们把目光转向Composition阶段。大家平时写微件，内部都是由很多更基本的微件组合而来的，而事实上，这些基本的微件还有更底层的组成部分。如果我们展开刚刚的那个例子，它就成了这个样子
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111728631.png" alt="image-20220211172838557" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111728631.png" alt="image-20220211172838557" style="zoom:50%;" />
 
 在这里，所有的叶节点<small>(即没有子元素的节点)</small>都是`Layout`这个微件
 
@@ -133,15 +133,15 @@ interface Measurable : IntrinsicMeasurable {
 
 而`Constraints`则描述了微件的大小策略，它的部分定义摘录如下：
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111748748.png" alt="image-20220211174814661" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111748748.png" alt="image-20220211174814661" style="zoom:50%;" />
 
 举个栗子，如果我们想让这个微件想多大就多大（类似match_parent），那我们可以这样写：
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111749649.png" alt="image-20220211174939592" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111749649.png" alt="image-20220211174939592" style="zoom:50%;" />
 
 如果它是固定大小（比如长宽50），那就是这样写
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111750399.png" alt="image-20220211175028341" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111750399.png" alt="image-20220211175028341" style="zoom:50%;" />
 
 接下来我们就先获取placeable吧
 
@@ -189,7 +189,7 @@ fun CustomLayoutTest() {
 }
 ```
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202111817149.png" alt="image-20220211181720062" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202111817149.png" alt="image-20220211181720062" style="zoom:50%;" />
 
 嗯，工作基本正常。
 
@@ -276,7 +276,7 @@ fun IntArray.minIndex() : Int {
 
 效果如下（设置列数为3）：
 
-<img src="https://gitee.com/funnysaltyfish/blog-drawing-bed/raw/master/img/202202112149060.png" alt="image-20220211214931940" style="zoom:50%;" />
+<img src="https://web.funnysaltyfish.fun/temp_img/202202112149060.png" alt="image-20220211214931940" style="zoom:50%;" />
 
 
 
