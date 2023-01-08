@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Jetpack Compose 性能优化参考：编译指标 | FunnySaltyFish's Blog</title><meta name="author" content="FunnySaltyFish"><meta name="copyright" content="FunnySaltyFish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文译自：https:&amp;#x2F;&amp;#x2F;chris.banes.dev&amp;#x2F;composable-metrics&amp;#x2F;原标题：Composable Metrics译：FunnySaltyFish 本文为文章《如何在 Jetpack Compose 中调试重组》中附录的文章，译者同样进行了翻译。限于译者水平，不免有谬误之可"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.funnysaltyfish.fun/2023/01/08/jetpack-compose-metrics-report/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?916327b5895b588b069297cd54d0b539";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Jetpack Compose 性能优化参考：编译指标',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-08 13:23:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="FunnySaltyFish's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://web.funnysaltyfish.fun/temp_img/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/bg_jetpack_compose.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">FunnySaltyFish's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Jetpack Compose 性能优化参考：编译指标</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-08T05:21:12.000Z" title="发表于 2023-01-08 13:21:12">2023-01-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-08T05:23:29.394Z" title="更新于 2023-01-08 13:23:29">2023-01-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Jetpack Compose 性能优化参考：编译指标"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文译自：<a target="_blank" rel="noopener" href="https://chris.banes.dev/composable-metrics/">https://chris.banes.dev/composable-metrics/</a><br>原标题：Composable Metrics<br>译：FunnySaltyFish</p>
+<p>本文为文章《<a target="_blank" rel="noopener" href="https://juejin.cn/post/7110208846051672095">如何在 Jetpack Compose 中调试重组</a>》中附录的文章，译者同样进行了翻译。限于译者水平，不免有谬误之可能，如有错误，欢迎指正。  </p>
+<hr>
+<p>当一个团队开始使用 <a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/compose">Jetpack Compose</a> 时，他们中的大多数人最终会发现少了一块拼图：如何测量可组合项（Composable）的性能。</p>
+<p>在 Jetpack Compose <a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/androidx/releases/compose-compiler#version_12_2">1.2.0</a>中，Compose 编译器添加了一个新功能，它可以在构建时输出各种与性能相关的指标，让我们能够窥视幕后，看看潜在的性能问题在哪些地方。在这篇博文中，我们将探索新的指标，看看我们能找到什么。</p>
+<p>在开始阅读之前需要了解的一些事项：</p>
+<ul>
+<li>最终写完后的结果显示，这是一篇<em>很长</em> 的博文，涵盖了 Compose 的许多工作原理。所以阅读这篇文章可能得花点时间。</li>
+</ul>
+<!---->
+
+<ul>
+<li>本文仅仅设立了一些预期，到结尾也没有真正做成什么“明显的成效”😅。但是，希望您能更好地了解您在设计上的选择将如何影响 Compose 的工作方式。</li>
+</ul>
+<!---->
+
+<ul>
+<li>如果您没有立即理解这里的所有内容，请不要感到难过——这是一个<em>高级</em> 主题！如果您有什么疑惑，我已尝试列出相关资源以供进一步阅读。</li>
+</ul>
+<!---->
+
+<ul>
+<li>我们在这里捣鼓的一些事情可以被认为是“细微优化”。与任何涉及优化的任务一样：<strong>首先profile（分析）和test（测试）！</strong> 新的<a target="_blank" rel="noopener" href="https://developer.android.com/studio/profile/jankstats">JankStats 库</a>是一个很好的切入点。如果您在真实设备上的性能没有问题，那么在这上面您可能无需做太多事情。</li>
+</ul>
+<p>有了这个，让我们开始吧……🏞</p>
+<h2 id="启用指标"><a href="#启用指标" class="headerlink" title="启用指标"></a><strong>启用指标</strong></h2><p>我们的第一步是通过一些编译器标志启用新的编译器指标。对于大多数应用程序，在所有模块上启用它的最简单方法是使用全局 开&#x2F;关 开关。</p>
+<p>在您的根目录<code>build.gradle</code>中，您可以粘贴以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> subprojects &#123;</span><br><span class="line">     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach &#123;</span><br><span class="line">         kotlinOptions &#123;if (project.findProperty(&quot;myapp.enableComposeCompilerReports&quot;) == &quot;true&quot;) &#123;</span><br><span class="line">                 freeCompilerArgs += [&quot;-P&quot;,&quot;plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=&quot; +</span><br><span class="line">                         project.buildDir.absolutePath + &quot;/compose_metrics&quot;]</span><br><span class="line">                 freeCompilerArgs += [&quot;-P&quot;,&quot;plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=&quot; +</span><br><span class="line">                         project.buildDir.absolutePath + &quot;/compose_metrics&quot;]&#125;&#125;&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>每当您在<code>myapp.enableComposeCompilerReports</code>属性被启用的情况下运行 Gradle 构建时，这都会启用必要的 Kotlin 编译器标志，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> ./gradlew assembleRelease -Pmyapp.enableComposeCompilerReports=true</span><br></pre></td></tr></table></figure>
+
+<p>一些注意事项：</p>
+<ul>
+<li><strong>请在release版本上运行它，这很重要。</strong> 我们稍后会看到为什么。</li>
+</ul>
+<!---->
+
+<ul>
+<li>您可以根据需要重命名该<code>myapp.enableComposeCompilerReports</code>属性。</li>
+</ul>
+<!---->
+
+<ul>
+<li>您可能会发现您需要同时使用 <code>--rerun-tasks</code> 选项运行上述命令，以确保 Compose 编译器即使在有缓存的情况下也正常运行。</li>
+</ul>
+<p>相应指标和结果报告将被写入每个模块的构建目录中的<code>compose_metrics</code>文件夹。一般情况来说，它将位于<code>&lt;module_dir&gt;/build/compose_metrics</code>. 如果您打开其中一个文件夹，您会看到如下内容：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/786759026ff14b3ba046091c5e93d16e~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<p>Compose 编译器指标的输出</p>
+<p><em>注意：从技术上讲，报告 (</em> <em><code>module.json</code></em> <em>) 和指标（其他 3 个文件）是单独启用的。我已将它们合并为一个标志并将它们设置为输出到同一目录以方便使用。如果需要，您可以拆分它们。</em></p>
+<h2 id="解释报告"><a href="#解释报告" class="headerlink" title="解释报告"></a><strong>解释报告</strong></h2><p>如上所示，每个模块有 4 个文件输出：</p>
+<ul>
+<li><code>module-module.json</code>，其中包含一些整体统计数据。</li>
+</ul>
+<!---->
+
+<ul>
+<li><code>module-composables.txt</code>，其中包含每个函数声明的详细输出。</li>
+</ul>
+<!---->
+
+<ul>
+<li><code>module-composables.csv</code>，这是文本文件的表格版本</li>
+</ul>
+<!---->
+
+<ul>
+<li><code>module-classes.txt</code>，其中包含从可组合项引用的类的稳定性信息。</li>
+</ul>
+<p>这篇博文不会深入探讨所有文件的内容。为此，我建议通读“解释 Compose 编译器指标”文档，也是本篇的参考文档：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/androidx/androidx/blob/androidx-main/compose/compiler/design/compiler-metrics.md">androidx&#x2F;compiler-metrics.md at androidx-main · androidx&#x2F;androidx</a></p>
+</blockquote>
+<p>相反，我将依次过一下上面文档中“注意事项”部分中列出的信息的要点👑 <a target="_blank" rel="noopener" href="https://chris.banes.dev/composable-metrics/Things%20To%20Look%20Out%20For">，</a>并看看我的<a target="_blank" rel="noopener" href="https://github.com/chrisbanes/tivi">Tivi 应用程序</a>的某个模块是个什么情况。</p>
+<p>我要研究的<code>ui-showdetails</code>模块是包含“显示详细信息”页面的所有 UI 的模块。它是我在 <a target="_blank" rel="noopener" href="https://github.com/chrisbanes/tivi/commit/28629cf397f2c62b80a0eb74954439066ee4356e">2020 年 4 月</a> 转成 Jetpack Compose 的首批模块之一，所以我确信还有一些需要改进的地方！</p>
+<p>好的，所以首先要注意的是…</p>
+<h2 id="是restartable但不是skippable-的函数"><a href="#是restartable但不是skippable-的函数" class="headerlink" title="是restartable但不是skippable 的函数"></a>是<code>restartable</code><strong>但不是</strong><code>skippable</code> 的函数</h2><p>首先，让我们定义术语 “<em>可重启（restartable）</em> ” 和 “<em>可跳过（skippable）</em> ”。</p>
+<p>在学习 Compose 时，您会学习到<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/compose/mental-model#recomposition">重组</a>——它是 Compose 工作方式的基础：</p>
+<blockquote>
+<p><em>重组是当输入改变时再次调用你的可组合函数的过程。当函数的输入发生变化时会发生这种情况。当 Compose 基于新输入进行重构时，它只调用可能已更改的函数或 lambda，并跳过其余部分。</em></p>
+</blockquote>
+<h3 id="可重启"><a href="#可重启" class="headerlink" title="可重启"></a><strong>可重启</strong></h3><p>“<em>可重启</em>”的函数是重组的基础。当 Compose 检测到函数输入发生变化时， 它便使用新输入<em>重新启动</em>（重新invoke）此函数。</p>
+<p>更进一步地看看 Compose 的工作原理，可重启的函数标志着composition“范围”的边界。<a target="_blank" rel="noopener" href="https://dev.to/zachklipp/introduction-to-the-compose-snapshot-system-19cn">Snapshot</a> (比如 <code>MutableState</code>)被读取到的“范围”很重要，因为它定义了在 快照（snapshot）更改时被重新运行的代码块。理想情况下，快照更改将尽可能仅触发最近的 函数&#x2F;lambda 重启，使得被重新运行的代码最少化。如果宿主代码块无法重启，则 Compose 需要遍历树以找到最近的祖先可重启的“范围”。这可能意味着很多函数需要重新运行。实际上，几乎所有<code>@Composable</code>函数都可以重启。</p>
+<h3 id="可跳过"><a href="#可跳过" class="headerlink" title="可跳过"></a><strong>可跳过</strong></h3><p>如果 Compose 发现自上次调用以来参数未更改，则它可以完全跳过调用此函数，则可组合函数是“<em>可跳过的”。</em> 这对于“顶级”可组合项的性能尤为重要，因为它们往往位于 <code>Composable树</code>的最上面一部分。如果 Compose 可以跳过“顶级”调用，则也不需要调用其之下任何函数。</p>
+<p>在实践中，我们的目标是让尽可能多的可组合项可跳过，以允许 Compose ‘<em>智能重组’。</em></p>
+<p>蛋疼的事情是，参数值是否<em>发生变化</em> 是怎么定义的——我们需要引入另外两个术语：稳定性（Stablility）和不变性（Immutability）。</p>
+<h3 id="稳定性（Stablility）和不变性（Immutability）"><a href="#稳定性（Stablility）和不变性（Immutability）" class="headerlink" title="稳定性（Stablility）和不变性（Immutability）"></a><strong>稳定性（Stablility）和不变性（Immutability）</strong></h3><p>可重启和可跳过是 <strong>Compose 函数</strong> 的属性，而不变性和稳定性是<strong>对象实例</strong>的属性，尤指传递给可组合函数的对象。</p>
+<p><strong>不可变</strong>的对象意味着“所有public属性和字段在构造实例后都不会更改”。这个特征意味着 Compose 可以很容易地检测到两个实例之间的“变化”。</p>
+<p>另一方面，<strong>稳定</strong>的对象不一定是不可变的。一个稳定的类可以保存可变数据，但所有可变数据都需要在发生变化时通知 Compose，以便在必要时进行重组。</p>
+<p>当 Compose 检测到所有函数参数都是稳定或不可变时，它可以在运行时启用许多优化，这也正是函数能够被跳过的关键。Compose 会尝试自动推断一个类是不可变的还是稳定的，但有时它无法正确推断。当发生这种情况时，我们可以在类上使用<code>@Immutable</code>和<code>@Stable</code>注解</p>
+<p>简要解释了这些术语后，让我们开始探索指标数据。</p>
+<h3 id="探索指标数据"><a href="#探索指标数据" class="headerlink" title="探索指标数据"></a><strong>探索指标数据</strong></h3><p>我们将从<code>module.json</code>文件开始以了解整体统计信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">     &quot;skippableComposables&quot;: 64,</span><br><span class="line">     &quot;restartableComposables&quot;: 76,</span><br><span class="line">     &quot;readonlyComposables&quot;: 0,</span><br><span class="line">     &quot;totalComposables&quot;: 76</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到该模块包含 76 个可组合项：它们都是<em>可重启</em> 的，其中 64 个是<em>可跳过</em> 的，剩下 12 个则是<em>可重启</em> 但不可 <em>跳过</em> 的函数。</p>
+<p>现在我们需要找出具体的对应关系。我们有两种方法可以做到这一点：查看<code>composables.txt</code>文件，或者导入<code>composables.csv</code>文件并将其当做电子表格查看。我们稍后会查看文本文件，所以现在让我们看一下电子表格。</p>
+<p>将 CSV 导入您选择的电子表格工具后，您将得到如下结果：</p>
+<p>（原作者附的链接失效了……）</p>
+<p>在过滤Composable列表后（工作表上有一个“不可跳过”的过滤视图），我们可以轻松找到不可跳过的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> ShowDetails()</span><br><span class="line"> ShowDetailsScrollingContent()</span><br><span class="line"> PosterInfoRow()</span><br><span class="line"> BackdropImage()</span><br><span class="line"> AirsInfoPanel()</span><br><span class="line"> Genres()</span><br><span class="line"> RelatedShows()</span><br><span class="line"> NextEpisodeToWatch()</span><br><span class="line"> InfoPanels()</span><br><span class="line"> SeasonRow()</span><br></pre></td></tr></table></figure>
+
+<h3 id="使函数可跳过"><a href="#使函数可跳过" class="headerlink" title="使函数可跳过"></a><strong>使函数可跳过</strong></h3><p>现在我们的工作是依次查看上述的每一个函数，并确定它们不可跳过的原因。如果我们回到文档，它上面这样写到：</p>
+<blockquote>
+<p><em>如果您看到一个可重启但不可跳过的函数，这并不总是一件坏事；反之，有时，这告诉我们该做做下面这两件事之一：</em> <em>1。通过确保函数的所有参数稳定来使函数可跳过</em> <em>2. 通过</em> <em><code>@NonRestartableComposable</code></em> <em>将函数标记为不可重启函数</em></p>
+</blockquote>
+<p>现在，我们将专注于第一件事。所以让我们继续查看<code>composables.txt</code>文件，并找到不可跳过的Composable之一：<code>AirsInfoPanel()</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> restartable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun AirsInfoPanel(</span><br><span class="line">   unstable show: TiviShow</span><br><span class="line">   stable modifier: Modifier? = @static Companion</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到该函数有 2 个参数：<code>modifier</code>参数是 ‘stable’ (👍)，但<code>show</code>参数是 ‘unstable’ (👎)，这很可能就是导致 Compose 确定该函数不可跳过的原因。但是现在问题变成了：为什么 Compose 编译器会认为<code>TiviShow</code>是不稳定的？它只是一个只包含不可变数据的数据类而已啊。🤔</p>
+<h3 id="classes-txt"><a href="#classes-txt" class="headerlink" title="classes.txt"></a><strong>classes.txt</strong></h3><p>理想情况下，我们应该参考此处引用的<code>module-classes.txt</code>文件以深入了解该类被推断为不稳定的原因。不幸的是，该文件的输出似乎零零散散的。在某些模块中，我可以看到必要的输出；但对于有些模块，它甚至可能是个空文件（这个模块就是）。</p>
+<p>不过，我们可以换个不同模块的示例看看。它看起来就蛮有用的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> unstable class WatchedViewState &#123;</span><br><span class="line">   unstable val user: TraktUser?</span><br><span class="line">   stable val authState: TraktAuthState</span><br><span class="line">   stable val isLoading: Boolean</span><br><span class="line">   stable val isEmpty: Boolean</span><br><span class="line">   stable val selectionOpen: Boolean</span><br><span class="line">   unstable val selectedShowIds: Set&lt;Long&gt;</span><br><span class="line">   stable val filterActive: Boolean</span><br><span class="line">   stable val filter: String?</span><br><span class="line">   unstable val availableSorts: List&lt;SortOption&gt;</span><br><span class="line">   stable val sort: SortOption</span><br><span class="line">   unstable val message: UiMessage?</span><br><span class="line">   &lt;runtime stability&gt; = Unstable</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从<code>classes.txt</code>输出的判断来看，Compose 编译器似乎只能推断 启用了 compose的模块下的类 的不变性和稳定性。Tivi 中的大多数Model类都构建在标准的 Kotlin 模块中（即没有包含 Android 或 Compose），然后在整个应用程序中使用。对于从外部库（比如<code>ViewModel</code>）使用的类，我们也有类似的情况。</p>
+<p>不幸的是，如果没有额外的工作，我们现在似乎无法解决这个问题。理想情况下，Compose 使用的注释（比如<code>@Stable</code>）将能被分离到一个纯 Kotlin 库中，允许我们在更多地方使用它们（如有必要，甚至可以是 Java 库）。</p>
+<h3 id="把类包装一下"><a href="#把类包装一下" class="headerlink" title="把类包装一下"></a><strong>把类包装一下</strong></h3><p>如果您发现您的可组合项成了性能上的绊脚石，且启用可跳过性是实现无卡顿的关键时，您可以将被错误推断的、实际稳定的对象包装起来，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> @Stable</span><br><span class="line"> class StableHolder&lt;T&gt;(val item: T) &#123;operator fun component1(): T = item</span><br><span class="line"> &#125;</span><br><span class="line"> ​</span><br><span class="line"> @Immutable</span><br><span class="line"> class ImmutableHolder&lt;T&gt;(val item: T) &#123;operator fun component1(): T = item</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>缺点是您需要在可组合声明中这样使用它们：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> @Composable</span><br><span class="line"> private fun AirsInfoPanel(</span><br><span class="line">     show: StableHolder&lt;ShowUiModel&gt;,</span><br><span class="line">     modifier: Modifier = Modifier,</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>不过，我们可以更进一步，探索许多团队推荐的模式：UI 相关的 Model 类。</p>
+<h3 id="UI-Model-类"><a href="#UI-Model-类" class="headerlink" title="UI Model 类"></a><strong>UI</strong> <strong>Model 类</strong></h3><p>这些 Model 类是针对每个“屏幕”构建的，包含显示 UI 所需的最少信息。通常，您<code>ViewModel</code>会将数据层模型映射到这些 UI 模型中，以便您的 UI 易于使用。更重要的是，它们可以直接写在您的可组合项旁边，这意味着 Compose 编译器可以推断出它需要的所有内容；或者即使其他所有方法都没用，我们也可以根据需要添加<code>@Immutable</code>or <code>@Stable</code>。</p>
+<p>这正是我在以下PR中实现的：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/chrisbanes/tivi/pull/910">https://github.com/chrisbanes/tivi/pull/910</a></p>
+</blockquote>
+<p>在我的数据层（比如数据库啥的）中，我们不再直接使用<code>TiviShow</code>作为模型，而是将显示数据映射到仅包含 UI 所需的必要信息的<code>ShowUiModel</code> 中。</p>
+<p>不幸的是，这还不足以让 Compose 编译器推断<code>ShowUiModel</code>为可跳过 😔：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> restartable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun AirsInfoPanel(</span><br><span class="line">   unstable show: ShowUiModel</span><br><span class="line">   stable modifier: Modifier? = @static Companion</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>同样不幸的是，指标中没有任何明显的东西可以说明为什么该类会被推断为不稳定。在查看了<code>composables.txt</code>文件的其余部分后，我注意到另一个函数也被认为是不稳定的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> restartable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun Genres(   </span><br><span class="line">   unstable genres: List&lt;Genre&gt;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>我的新<code>ShowUiModel</code>类是一个数据类，它包含许原始类型和枚举类，但一个属性略有不同，因为它包含枚举列表：<code>genre: List&lt;Genre&gt;</code>. 似乎 Compose 编译器不把List当做稳定的（<a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/199496149">public issue</a>）。</p>
+<p>我发现强制让 Compose 认为<code>ShowUiModel</code>是稳定的唯一方法是：使用<code>@Immutable</code>或<code>@Stable</code>注解。因为其所有属性均不可变，所以我使用<code>@Immutable</code>，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> @Immutable</span><br><span class="line"> internal data class ShowUiModel(// ...</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>之后，<code>AirsInfoPanel()</code>终于被认为是可以跳过的了😅：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> restartable skippable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun AirsInfoPanel(</span><br><span class="line">   stable show: ShowUiModel</span><br><span class="line">   stable modifier: Modifier? = @static Companion</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<h3 id="再看看"><a href="#再看看" class="headerlink" title="再看看"></a>再看看</h3><p>在干完这些之后，您可能会认为我们在模块的整体统计数据方面做出了很大的改变。不幸的是，事实并非如此：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">     &quot;skippableComposables&quot;: 66,</span><br><span class="line">     &quot;restartableComposables&quot;: 76,</span><br><span class="line">     &quot;readonlyComposables&quot;: 0,</span><br><span class="line">     &quot;totalComposables&quot;: 76,</span><br><span class="line">     &quot;knownStableArguments&quot;: 890,</span><br><span class="line">     &quot;knownUnstableArguments&quot;: 30,&quot;unknownStableArguments&quot;: 1</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为提醒，我们是 从<em>64 个</em>可跳过的组合开始的。这意味着我们将这个数字增加了…… <strong>2</strong>——到<em>66</em> 🙃。</p>
+<blockquote>
+<p><em>大型应用程序足以包含数百个</em> <em>UI</em> <em>模块，这使得在每个模块中创建 UI 模型是不现实的。</em></p>
+</blockquote>
+<p>还有一些其他有趣的统计数据。Compose 已认为有 890 个稳定的可组合函数参数（这很好），但仍有<strong>30</strong>个被 Compose 视为不稳定。</p>
+<p>在检查了那些“不稳定”的参数后，我发现几乎所有的参数都可以安全地用作不可变的State。这个问题似乎和之前一样，但有其他问题：大多数类型来自外部库。</p>
+<p>对于来自外部库的简单数据类，我们<em>可以</em> 像以前一样那么干，并将它们映射到本地 UI 模型类（虽然这很费力）。然而，大多数应用程序最终会发现有些类无法在本地轻松映射。在<code>ui-showdetails</code>模块中，我有些来自 <a target="_blank" rel="noopener" href="https://www.threeten.org/threetenbp/">ThreeTen-bp</a> 的时间相关的类:<code>OffsetDateTime</code>和<code>LocalDate</code>. 我不是特别想在本地重写日期&#x2F;时间库！</p>
+<p>请注意，我们谈论的还仅仅是<strong>一个module</strong>的snapshot。Tivi 是一个相当小的应用程序，但它仍然包含 12 个 UI 模块。大型应用程序可以包含数百个 UI 模块，这使得在每个模块中创建本地 UI 模型是不现实的。正如我们在这篇博文开头提到的那样，您只需要在您已确定性能存在问题的地方才考虑这一点。</p>
+<h3 id="换条路走"><a href="#换条路走" class="headerlink" title="换条路走"></a>换条路走</h3><p>到这时我才重新回去看文档，并开始看第二个建议：</p>
+<blockquote>
+<p><em>通过将函数标记为</em> <em><code>@NonRestartableComposable</code></em></p>
+</blockquote>
+<p>乍一看，这个建议更像是一种权宜之计（或末路之策），而不是像第一个建议那样去修复类稳定性。让我们看看注释的文档是怎么说的：</p>
+<blockquote>
+<p><em>此注解 [防止] 那些允许函数跳过或重启的代码被生成。这对于 直接调用另一个可组合函数、自身几乎不做什么、并且本身不太可能失效的小函数 来说可能是可取的。</em></p>
+</blockquote>
+<p>如果我们往回想想，我们的目标是让 Composable <em>可重启</em> <strong>和</strong> <em>可跳过</em>，所以仅读这个注释并不太够。不过，Compose Metrics 指南提供了更多信息：</p>
+<blockquote>
+<p><em>如果Composable函数不直接读取任何State变量，那么 [使用这个注解] 是个好主意，[因为] 此重启作用域不太可能被使用。</em></p>
+</blockquote>
+<p>那么这个注释对我们有帮助吗？是也不是。此注解似乎让 Compose 编译器完全忽略了所有可组合函数的自动重启，从而否定了让我们的函数<em>可重启</em> 和<em>可跳过</em> 的初衷。我相信这意味着任何状态更改都需要 Compose Runtime 找到祖先重启范围，这就是为什么上面的文档说要避免它们用于读取State的函数。</p>
+<p>那么接下来干嘛呢？写就近的 UI Model 类需要添加大量的东西，因此对于很多团队来说，这条路不大可行。不过，我倒确实在 <a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/216791427">Compose Issue Tracker</a>上找到了一个我非常喜欢的解决方案：允许将函数的参数标记为<code>@Stable</code>. 这将使得开发人员能够对Composable函数的参数强制指定稳定性&#x2F;不变性，即使对于外部参数类型也是如此：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Composable</span><br><span class="line">fun AirsInfoPanel(</span><br><span class="line">    @Stable show: TiviShow,</span><br><span class="line">    modifier: Modifier = Modifier,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>目前，它还<strong>不能用</strong>。</p>
+<h2 id="dynamic-的默认参数表达式"><a href="#dynamic-的默认参数表达式" class="headerlink" title="@dynamic 的默认参数表达式"></a><strong><code>@dynamic</code></strong> <strong>的默认参数表达式</strong></h2><p>从 Metrics 文档中，要注意的第二件事是<code>@dynamic</code>的默认参数表达式。大量Composable使用默认参数来提供灵活的 API。我最近写了一篇关于 Slot API 的文章，它就依赖于默认参数值：</p>
+<p><a target="_blank" rel="noopener" href="https://chris.banes.dev/slotting-in-with-compose-ui/">https://chris.banes.dev/slotting-in-with-compose-ui/</a></p>
+<p>默认参数的值可以是可组合的，或者不可组合的。使用可组合代码中的值意味着您正在调用的代码可能是<em>可重启</em> 的，并且返回值可以变化。这就是我们所指的<code>@dynamic</code>默认参数。如果默认参数值是<code>@dynamic</code>，则调用方函数也可能需要重启，这就是应避免意外的<code>@dynamic</code>的原因。</p>
+<p>编译指标将非<code>@dynamic</code>参数值称为<code>@static</code>，它可能构成您在<code>composables.txt</code>文件中找到的绝大多数内容。但也一些例外情况下，<code>@dynamic</code>是必要的：</p>
+<blockquote>
+<h3 id="您正在显式读取可观察的dynamic变量"><a href="#您正在显式读取可观察的dynamic变量" class="headerlink" title="您正在显式读取可观察的dynamic变量"></a><em>您正在显式读取可观察的dynamic变量</em></h3></blockquote>
+<p>关于这一点，您最常见的情况是在Composable上使用<code>MaterialTheme.blah</code>做默认值。这里我们有一个Composable，它有 3 个被标记为dynamic的参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">restartable skippable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun TopAppBarWithBottomContent(</span><br><span class="line">  stable backgroundColor: Color = @dynamic MaterialTheme.colors.primarySurface</span><br><span class="line">  stable contentColor: Color = @dynamic contentColorFor(backgroundColor, $composer, 0b1110 and $dirty shr 0b1111)</span><br><span class="line">  stable elevation: Dp = @dynamic AppBarDefaults.TopAppBarElevation</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>前两个参数<code>backgroundColor</code>和<code>contentColor</code>是dynamic（动态）的，因为我们在间接读取挂在<code>MaterialTheme</code>上的 composition locals . 由于主题是相对静态的（理论上来说），返回值实际上不应该经常改变，所以它是动态的也问题不大。</p>
+<p>但是对于<code>elevation</code>参数，我就不大确定为什么它被标记为动态的了。它使用来自 Material 提供的 <code>AppBarDefaults</code>.<code>TopAppBarElevation</code> 属性的值，该属性定义为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">object AppBarDefaults &#123;</span><br><span class="line">    val TopAppBarElevation = 4.dp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>dp</code>属性被标记为<code>@Stable</code>，并且<code>Dp</code>类被标记为<code>@Immutable</code>。所以从我读到的情况来看，这可能是个bug？</p>
+<p>我在另一个函数上也发现了类似的问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">restartable skippable scheme(&quot;[androidx.compose.ui.UiComposable]&quot;) fun SearchTextField(</span><br><span class="line">  stable keyboardOptions: KeyboardOptions? = @dynamic Companion.Default</span><br><span class="line">  keyboardActions: KeyboardActions? = @dynamic KeyboardActions()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><code>keyboardOptions</code>指的是<code>KeyboardOptions</code>(一个单例) 的伴生对象，并<code>keyboardActions</code>在创建一个新的空<code>KeyboardActions</code>实例，我读着感觉这两个实例都应该被推断为<code>@static</code>。</p>
+<p>与这篇博文的第一部分类似，我不确定我们在这里可以做些什么来影响 Compose 编译器。我们可以将<code>@Stable和@Immutable</code>添加到我们自己的类中，但从<code>dp</code>上面的示例来看，这似乎并不总是有效。</p>
+<h3 id="为啥要在release下？"><a href="#为啥要在release下？" class="headerlink" title="为啥要在release下？"></a><strong>为啥要在release下？</strong></h3><p>在这篇博文的开头，我们提到您需要在release版本上启用 Compose Compiler 指标。当您在debug模式下构建应用程序时，Compose 编译器会启用许多功能来加快开发。其中之一是<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/compose/tooling#live-edit-literals">Live Literals</a>，它使 Android Studio 能在不重新编译Composable的情况下“注入”某些参数值的新值。</p>
+<p>为了做到这一点，Compose 编译器将某些默认参数替换为另一些生成后的代码。然后，Android Studio 可以调用这些代码来设置新值。最终效果是生成的 Live Literal 代码将导致您的默认参数为<code>@dynamic</code>，即使它们实际上并不是动态的。</p>
+<p>您可以在下面看到一个示例。红色（译注：这里没颜色，以 - 开头的行）是<code>debug</code>模式输出，绿色（译注：同，+ 开头的行）来自<code>release</code>构建。release模式下，参数<code>expanded</code>变成了<code>@static</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--- debug.txt        2022-04-06 14:43:16.000000000 +0100</span><br><span class="line">+++ release.txt        2022-04-06 14:43:24.000000000 +0100</span><br><span class="line">@@ -1,11 +1,11 @@</span><br><span class="line"> restartable skippable scheme(&quot;[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable], [androidx.compose.ui.UiComposable], [androidx.compose.ui.UiComposable]]&quot;) fun ExpandableFloatingActionButton(</span><br><span class="line">   stable text: Function2&lt;Composer, Int, Unit&gt;</span><br><span class="line">   stable onClick: Function0&lt;Unit&gt;</span><br><span class="line">   stable modifier: Modifier? = @static Companion</span><br><span class="line">   stable icon: Function2&lt;Composer, Int, Unit&gt;</span><br><span class="line">-  stable shape: Shape? = @dynamic MaterialTheme.shapes.small.copy(CornerSize(LiveLiterals$ExpandingFloatingActionButtonKt.Int$arg-0$call-CornerSize$arg-0$call-copy$param-shape$fun-ExpandableFloatingActionButton()))</span><br><span class="line">+  stable shape: Shape? = @dynamic MaterialTheme.shapes.small.copy(CornerSize(50))</span><br><span class="line">   stable backgroundColor: Color = @dynamic MaterialTheme.colors.secondary</span><br><span class="line">   stable contentColor: Color = @dynamic contentColorFor(backgroundColor, $composer, 0b1110 and $dirty shr 0b1111)</span><br><span class="line">   stable elevation: FloatingActionButtonElevation? = @dynamic FloatingActionButtonDefaults.elevation(&lt;unsafe-coerce&gt;(0.0f), &lt;unsafe-coerce&gt;(0.0f), &lt;unsafe-coerce&gt;(0.0f), &lt;unsafe-coerce&gt;(0.0f), $composer, 0b1000000000000000, 0b1111)</span><br><span class="line">-  stable expanded: Boolean = @dynamic LiveLiterals$ExpandingFloatingActionButtonKt.Boolean$param-expanded$fun-ExpandableFloatingActionButton()</span><br><span class="line">+  stable expanded: Boolean = @static true</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<h2 id="我刚刚学到了啥？"><a href="#我刚刚学到了啥？" class="headerlink" title="我刚刚学到了啥？"></a><strong>我刚刚学到了啥？</strong></h2><p>到这会儿，您可能会认为您刚刚花了大约 30 分钟，阅读我的文章、光看我指出了许多可能的问题……好吧您大概也是对的 😅。但是我仍然认为这里有一些团队可以采取的行动：</p>
+<ul>
+<li>开始<a target="_blank" rel="noopener" href="https://developer.android.com/studio/profile">分析和跟踪性能统计信息</a>。没有这个，任何的性能优化都是在摸黑瞎走。</li>
+</ul>
+<!---->
+
+<ul>
+<li>尽早更新到 Compose 的新版本！这将让您能尝试并获得性能上的更新（并报告可能的退步）。</li>
+</ul>
+<!---->
+
+<ul>
+<li>寻找那些被标记为<code>@Composable</code>的小的功能函数或lambda表达式. 这些往往会返回一个值（而不是更新 UI），并且往往只是为了可以引用 composition locals （根据我的经验，<code>LocalContext</code>是一个常见的罪魁祸首）才被标记为Composable。您可以通过<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/compose/state#state-hoisting">传入依赖项</a>轻松地拿掉这个Composable注解。</li>
+</ul>
+<h2 id="最后的想法"><a href="#最后的想法" class="headerlink" title="最后的想法"></a><strong>最后的想法</strong></h2><p>正如我在上面提到的，我认为这些新指标向前迈进了 ✨ 惊人的 ✨ 一步，可以看到我们的Composable实际被推断出的内容。</p>
+<p>我指出的问题实际上是一件<em>好事</em>，并表明这些指标和输出是有效的。如果没有这些，我们将完全不知道会被推断出什么来，也没法看到推断的结果何时不完全符合预期。有了这些信息，在Compose<a target="_blank" rel="noopener" href="https://chris.banes.dev/composable-metrics/goo.gle/compose-feedback">问题跟踪器</a>上创建问题就变得更加容易。</p>
+<p>这些指标现在显然非常原始，但在知道 Compose + Android Studio 工具团队有多出色的前提下，我确信一个相应的 Android Studio GUI 版本不会等太久的。我期待着看到团队把让它成为现实！</p>
+<hr>
+<p><em>感谢</em> <em><a target="_blank" rel="noopener" href="https://twitter.com/yoali_sb">Yoali</a></em> <em>、</em> <em><a target="_blank" rel="noopener" href="https://twitter.com/1taylorsandusky">Taylor</a></em> <em>、</em> <em><a target="_blank" rel="noopener" href="https://twitter.com/mrmans0n">Nacho</a></em> <em>和</em> <em><a target="_blank" rel="noopener" href="https://twitter.com/bentrengrove">Ben</a></em> <em>的审阅</em>🙌</p>
+<p>(原文结束)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/FunnySaltyFish">FunnySaltyFish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.funnysaltyfish.fun/2023/01/08/jetpack-compose-metrics-report/">https://blog.funnysaltyfish.fun/2023/01/08/jetpack-compose-metrics-report/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.funnysaltyfish.fun" target="_blank">FunnySaltyFish's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Jetpack-Compose/">Jetpack Compose</a></div><div class="post_share"><div class="social-share" data-image="/images/bg_jetpack_compose.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://api.funnysaltyfish.fun/wechat.png" target="_blank"><img class="post-qr-code-img" src="https://api.funnysaltyfish.fun/wechat.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="https://api.funnysaltyfish.fun/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://api.funnysaltyfish.fun/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/08/kotlinic/"><img class="prev-cover" src="/images/bg_kotlin.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">写出优雅的Kotlin代码：聊聊我认为的 &quot;Kotlinic&quot;</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/23/jetpack-compose-one-year/"><img class="next-cover" src="/images/bg_jetpack_compose.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【杂谈】我用 Jetpack Compose 的这一年</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/01/08/jetpack-compose-130-new/" title="Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-08</div><div class="title">Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText</div></div></a></div><div><a href="/2023/01/08/jetpack-compose-calculator/" title="入坑 Jetpack Compose ：写一个简单的计算器"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-08</div><div class="title">入坑 Jetpack Compose ：写一个简单的计算器</div></div></a></div><div><a href="/2023/01/08/jetpack-compose-data-saver-2/" title="Compose 数据持久化辅助框架：ComposeDataSaver 的一些新变化"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-08</div><div class="title">Compose 数据持久化辅助框架：ComposeDataSaver 的一些新变化</div></div></a></div><div><a href="/2023/01/08/jetpack-compose-animated-number/" title="Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-08</div><div class="title">Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果</div></div></a></div><div><a href="/2022/01/25/jetpack-compose-data-saver/" title="Jetpack Compose 中优雅完成数据持久化"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-25</div><div class="title">Jetpack Compose 中优雅完成数据持久化</div></div></a></div><div><a href="/2022/06/23/jetpack-compose-fake-keep/" title="Jetpack Compose 自定义绘制——高仿Keep周运动数据页面"><img class="cover" src="/images/bg_jetpack_compose.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-23</div><div class="title">Jetpack Compose 自定义绘制——高仿Keep周运动数据页面</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://web.funnysaltyfish.fun/temp_img/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">FunnySaltyFish</div><div class="author-info__description">Android开发者，努力向全栈靠拢</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/FunnySaltyFish"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/FunnySaltyFish" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:funnysaltyfish@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到FunnySaltyFish的小站！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%8C%87%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">启用指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E6%8A%A5%E5%91%8A"><span class="toc-number">2.</span> <span class="toc-text">解释报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AFrestartable%E4%BD%86%E4%B8%8D%E6%98%AFskippable-%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">是restartable但不是skippable 的函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%87%8D%E5%90%AF"><span class="toc-number">3.1.</span> <span class="toc-text">可重启</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%B7%B3%E8%BF%87"><span class="toc-number">3.2.</span> <span class="toc-text">可跳过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7%EF%BC%88Stablility%EF%BC%89%E5%92%8C%E4%B8%8D%E5%8F%98%E6%80%A7%EF%BC%88Immutability%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">稳定性（Stablility）和不变性（Immutability）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E6%8C%87%E6%A0%87%E6%95%B0%E6%8D%AE"><span class="toc-number">3.4.</span> <span class="toc-text">探索指标数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E5%87%BD%E6%95%B0%E5%8F%AF%E8%B7%B3%E8%BF%87"><span class="toc-number">3.5.</span> <span class="toc-text">使函数可跳过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#classes-txt"><span class="toc-number">3.6.</span> <span class="toc-text">classes.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A%E7%B1%BB%E5%8C%85%E8%A3%85%E4%B8%80%E4%B8%8B"><span class="toc-number">3.7.</span> <span class="toc-text">把类包装一下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UI-Model-%E7%B1%BB"><span class="toc-number">3.8.</span> <span class="toc-text">UI Model 类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E7%9C%8B%E7%9C%8B"><span class="toc-number">3.9.</span> <span class="toc-text">再看看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%A2%E6%9D%A1%E8%B7%AF%E8%B5%B0"><span class="toc-number">3.10.</span> <span class="toc-text">换条路走</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamic-%E7%9A%84%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">@dynamic 的默认参数表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%A8%E6%AD%A3%E5%9C%A8%E6%98%BE%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%8F%AF%E8%A7%82%E5%AF%9F%E7%9A%84dynamic%E5%8F%98%E9%87%8F"><span class="toc-number">4.1.</span> <span class="toc-text">您正在显式读取可观察的dynamic变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E5%95%A5%E8%A6%81%E5%9C%A8release%E4%B8%8B%EF%BC%9F"><span class="toc-number">4.2.</span> <span class="toc-text">为啥要在release下？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E5%88%9A%E5%88%9A%E5%AD%A6%E5%88%B0%E4%BA%86%E5%95%A5%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">我刚刚学到了啥？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E6%83%B3%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">最后的想法</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/01/08/2022-annual-conclusion/" title="一条咸鱼的2022 | 掘金 &amp; 开源 &amp; 项目"><img src="/images/bg_me.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一条咸鱼的2022 | 掘金 &amp; 开源 &amp; 项目"/></a><div class="content"><a class="title" href="/2023/01/08/2022-annual-conclusion/" title="一条咸鱼的2022 | 掘金 &amp; 开源 &amp; 项目">一条咸鱼的2022 | 掘金 &amp; 开源 &amp; 项目</a><time datetime="2023-01-08T05:33:28.000Z" title="发表于 2023-01-08 13:33:28">2023-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/08/jetpack-compose-animated-number/" title="Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果"><img src="/images/bg_jetpack_compose.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果"/></a><div class="content"><a class="title" href="/2023/01/08/jetpack-compose-animated-number/" title="Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果">Jetpack Compose 十几行代码快速模仿即刻点赞数字切换效果</a><time datetime="2023-01-08T05:32:27.000Z" title="发表于 2023-01-08 13:32:27">2023-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/08/jetpack-compose-130-new/" title="Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText"><img src="/images/bg_jetpack_compose.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText"/></a><div class="content"><a class="title" href="/2023/01/08/jetpack-compose-130-new/" title="Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText">Jetpack Compose 上新：瀑布流布局、下拉加载、DrawScope.drawText</a><time datetime="2023-01-08T05:31:41.000Z" title="发表于 2023-01-08 13:31:41">2023-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/08/python-311-taste/" title="Python 3.11.0 正式发布！主要新特性一览"><img src="/images/bg_python.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python 3.11.0 正式发布！主要新特性一览"/></a><div class="content"><a class="title" href="/2023/01/08/python-311-taste/" title="Python 3.11.0 正式发布！主要新特性一览">Python 3.11.0 正式发布！主要新特性一览</a><time datetime="2023-01-08T05:30:44.000Z" title="发表于 2023-01-08 13:30:44">2023-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/08/jetpack-compose-calculator/" title="入坑 Jetpack Compose ：写一个简单的计算器"><img src="/images/bg_jetpack_compose.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="入坑 Jetpack Compose ：写一个简单的计算器"/></a><div class="content"><a class="title" href="/2023/01/08/jetpack-compose-calculator/" title="入坑 Jetpack Compose ：写一个简单的计算器">入坑 Jetpack Compose ：写一个简单的计算器</a><time datetime="2023-01-08T05:29:37.000Z" title="发表于 2023-01-08 13:29:37">2023-01-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By FunnySaltyFish</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a><span class="footer-separator">|</span><a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2021034074号-1</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? '' : ''
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'DrYO0lpXckTt9I0mnE7I7VNP-gzGzoHsz',
+      appKey: 'zFhG6sXrcgJuwXdrxt1igoYf',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
