@@ -1,21 +1,17 @@
 ![Hexo Logo](https://github.com/vercel/vercel/blob/master/packages/frameworks/logos/hexo.svg)
 
-# Hexo Example
+# 我的博客
+地址：https://blog.funnysaltyfish.fun/
 
-This directory is a brief example of a [Hexo](https://hexo.io/) site that can be deployed with Vercel and zero configuration.
-
-## Deploy Your Own
-
-Deploy your own Hexo project with Vercel.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/vercel/tree/main/examples/hexo)
-
-_Live Example: https://hexo.now-examples.now.sh_
-
-### How We Created This Example
-
-To get started with Hexo for deployment with Vercel, you can use the [Hexo CLI](https://hexo.io/docs/index.html#Installation) to initialize the project:
-
-```shell
-$ hexo init project-name
+## 本地运行
+```bash
+git clone https://github.com/FunnySaltyFish/FunnySaltyFish.github.io.git 
+npm install -g hexo-cli 
+cd FunnySaltyFish.github.io/
+npm install
+hexo s
 ```
+
+## 修改后提交
+源文件位于 `source/` 目录下
+更改后提交 PR，合并后会自动触发 Vercel 的部署
