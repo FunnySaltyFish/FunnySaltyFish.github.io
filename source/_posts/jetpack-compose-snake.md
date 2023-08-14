@@ -12,11 +12,11 @@ date: 2023-04-14 10:20:03
 
 
 ## 运行效果
-<p align=center><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a0246659c95246aea35a95ab9d5b6361~tplv-k3u1fbpfcp-watermark.image?" alt="Screenrecorder-2023-03-31-23-48-07-559.webp" width="50%" /></p>
+<p align=center><img src="https://img.funnysaltyfish.fun/i/2023/08/14/64d99a64ceaeb.webp" width="50%" /></p>
 
 
-| ![start_game.jpg](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f51f110fced04b7bb8099ca6bee38774~tplv-k3u1fbpfcp-watermark.image?) | ![lost_game.jpg](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c5fb19235df2435a8a1cc54b1c9845c1~tplv-k3u1fbpfcp-watermark.image?) |
-| ------------------------------- | ------------------------------ |
+| ![start_game.jpg](http://img.funnysaltyfish.fun/i/2023/08/14/64d998eb950ee.jpeg) | ![lost_game.jpg](http://img.funnysaltyfish.fun/i/2023/08/14/64d998fc918b2.jpeg) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 
 ## 环境
@@ -27,7 +27,11 @@ date: 2023-04-14 10:20:03
 
 
 ## 什么是 MVI
-<p align=center><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8908b1d93ffe4ad2b4dede97e0a4722c~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="image"  /></p>
+<p align=center><img src="http://img.funnysaltyfish.fun/i/2023/08/14/64d99abf71829.png" alt="image"  /></p>
+
+<center>MVI 示例，图源 <a href="https://juejin.cn/post/6950196093367877663">此文章</a> </center>
+
+
 
 MVI 是 Model-View-Intent 的缩写，是一种架构模式，它的核心思想是将 UI 的状态抽象为一个单一的数据流，这个数据流由 View 发出的 Intent 作为输入，经过 Model 处理后，再由 View 显示出来。
 具体到本项目，View 是贪吃蛇的游戏界面，Model 是游戏的逻辑，Intent 是用户和系统的操作，比如开始游戏、更改方向等。
@@ -183,8 +187,8 @@ LaunchedEffect(key1 = snakeState.gameState) {
 ## 主题
 
 本项目自带了一个简单的主题示例，设置不同的主题可以更改蛇的颜色、食物的颜色等
-| ![assets1.jpg](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62de2f76553c415f8a9be193a18dc7c2~tplv-k3u1fbpfcp-watermark.image?) | ![assets2.jpg](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2073d18b58784f59acf7a56e5fc74a87~tplv-k3u1fbpfcp-watermark.image?) |
-| ---------------------------- | ---------------------------- |
+| ![assets1.jpg](http://img.funnysaltyfish.fun/i/2023/08/14/64d999bb5aa1d.jpeg) | ![assets2.jpg](http://img.funnysaltyfish.fun/i/2023/08/14/64d999c29e376.jpeg) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 *看起来区别不大，但是主要目的在于演示 CompositionLocal 的基本用法*
 
@@ -274,7 +278,7 @@ val savedSnakeAssets: MutableState<SnakeAssets> = mutableDataSaverStateOf(DataSa
 
 还有一点有趣的事情，当我把 AS 升级到 F（火烈鸟）RC 版本时，发现新建项目时，已经把 Material3 的 Compose 模板放到了第一位了。Google 官方对于推行 Jetpack Compose 的态度，看起来还是很高涨的。所以，各位开发者们，学起来吧！
 
-![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cca39f9e3a064d0e88f106f15f05bd14~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](http://img.funnysaltyfish.fun/i/2023/08/14/64d999d4d75c1.png)
 
 ## 源码
 - https://github.com/FunnySaltyFish/JetpackComposeSnake
@@ -282,8 +286,8 @@ val savedSnakeAssets: MutableState<SnakeAssets> = mutableDataSaverStateOf(DataSa
 
 ## 参考
 
-- [爷童回！Compose + MVI 打造经典版的俄罗斯方块 - 掘金 (juejin.cn)](https://juejin.cn/post/6950196093367877663)
-- [100 行写一个 Compose 版华容道 - 掘金 (juejin.cn)](https://juejin.cn/post/7000908871292157989)
+- [爷童回！Compose + MVI 打造经典版的俄罗斯方块 - 掘金 ](https://juejin.cn/post/6950196093367877663)
+- [100 行写一个 Compose 版华容道 - 掘金](https://juejin.cn/post/7000908871292157989)
 
 ## 额外感谢
-Copilot、ChatGPT
+Github Copilot、ChatGPT
